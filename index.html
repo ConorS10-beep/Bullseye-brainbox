@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -29,12 +29,21 @@ button{border:0;border-radius:12px;padding:15px 16px;font-size:17px;cursor:point
 .result{text-align:center}.result h2{font-size:30px;margin-top:0}.result .big{font-size:54px;font-weight:bold;margin:10px 0}
 .hidden{display:none}.share-note{text-align:center;color:#aaa;font-size:13px;margin-top:18px}
 .small-note{color:#aaa;font-size:13px;line-height:1.4}
+
+.classic-title{text-align:center;font-size:28px;margin:0 0 8px}
+.classic-subtitle{text-align:center;color:#bbb;margin:0 0 18px}
+.name-input{width:100%;padding:15px 16px;border-radius:12px;border:2px solid #444;background:#2c2c2c;color:#fff;font-size:17px;outline:none}
+.name-input:focus{border-color:#e21b2d}
+.submit-name{width:100%;margin-top:12px;background:#e21b2d;color:#fff;font-weight:bold}
+.found-list{margin-top:18px;display:grid;gap:8px}
+.found-player{background:#174f2a;border:2px solid #35b85a;border-radius:10px;padding:11px 13px}
+.classic-status{text-align:center;color:#bbb;margin:14px 0 0}
 </style>
 </head>
 <body>
 <div class="container">
   <div class="header">
-    <div class="dart">ð¯</div>
+    <div class="dart">[DARTS]</div>
     <h1>Bullseye Brainbox</h1>
     <p class="subtitle">The Medium Darts Quiz</p>
   </div>
@@ -44,36 +53,64 @@ button{border:0;border-radius:12px;padding:15px 16px;font-size:17px;cursor:point
       <h2>Choose your game mode</h2>
       <div class="mode-grid">
         <button class="mode" onclick="startGame('classic')">
-          <strong>ð¯ Classic Quiz</strong>
-          <span>10 questions â¢ 3 lives</span>
+          <strong>[DARTS] Classic Quiz</strong>
+          <span>10 questions  -  3 lives</span>
         </button>
         <button class="mode" onclick="startGame('time')">
-          <strong>â¡ Time Attack</strong>
-          <span>10 questions â¢ 30 seconds per question â¢ 3 lives</span>
+          <strong>[TIME] Time Attack</strong>
+          <span>10 questions  -  30 seconds per question  -  3 lives</span>
         </button>
         <button class="mode" onclick="startGame('sudden')">
-          <strong>â ï¸ Sudden Death</strong>
+          <strong>[SUDDEN] Sudden Death</strong>
           <span>One wrong answer and the game is over</span>
         </button>
         <button class="mode" onclick="startDaily()">
-          <strong>ð Daily Challenge</strong>
+          <strong>[DAILY] Daily Challenge</strong>
           <span>Today's special darts question</span>
         </button>
       </div>
       <p class="small-note">Every game starts with 3 lives. Wrong answers cost a life except in Sudden Death, where one wrong answer ends the game immediately.</p>
     </div>
 
+    <div id="classicQuiz" class="hidden">
+      <div class="topbar">
+        <span>Classic Quiz</span>
+        <span id="classicLives" class="lives">LIVESLIVESLIVES</span>
+      </div>
+      <h2 class="classic-title">Last 10 Different World Matchplay Winners</h2>
+      <p class="classic-subtitle">Type a winner into the box. Find all 10 before you lose your 3 lives.</p>
+      <input id="winnerInput" class="name-input" type="text" autocomplete="off" placeholder="Type a player's name...">
+      <button id="submitWinner" class="submit-name">Submit Answer</button>
+      <div id="classicMessage" class="feedback"></div>
+      <div id="foundList" class="found-list"></div>
+      <p id="classicStatus" class="classic-status">0 / 10 winners found</p>
+    </div>
+
+    <div id="suddenQuiz" class="hidden">
+      <div class="topbar">
+        <span>Sudden Death</span>
+        <span id="suddenLives" class="lives">LIVESLIVESLIVES</span>
+      </div>
+      <h2 class="classic-title">Top 10 Biggest Premier League Darts Venues</h2>
+      <p class="classic-subtitle">Type a venue into the box. Find all 10 before you lose your 3 lives.</p>
+      <input id="venueInput" class="name-input" type="text" autocomplete="off" placeholder="Type a venue name...">
+      <button id="submitVenue" class="submit-name">Submit Answer</button>
+      <div id="suddenMessage" class="feedback"></div>
+      <div id="venueList" class="found-list"></div>
+      <p id="suddenStatus" class="classic-status">0 / 10 venues found</p>
+    </div>
+
     <div id="quiz" class="hidden">
       <div class="topbar">
         <span id="modeName"></span>
-        <span id="lives" class="lives">â¤ï¸â¤ï¸â¤ï¸</span>
+        <span id="lives" class="lives">LIVESLIVESLIVES</span>
         <span id="timer" class="timer"></span>
       </div>
       <div class="progress" id="progress"></div>
       <h2 class="question" id="question"></h2>
       <div class="options" id="options"></div>
       <div class="feedback" id="feedback"></div>
-      <button class="next" id="next">Next Question â</button>
+      <button class="next" id="next">Next Question -></button>
     </div>
 
     <div id="result" class="result hidden">
@@ -84,7 +121,7 @@ button{border:0;border-radius:12px;padding:15px 16px;font-size:17px;cursor:point
     </div>
   </div>
 
-  <p class="share-note">Bullseye Brainbox â¢ Darts knowledge starts at the oche.</p>
+  <p class="share-note">Bullseye Brainbox  -  Darts knowledge starts at the oche.</p>
 </div>
 
 <script>
@@ -111,7 +148,7 @@ Example:
   options: ["A","B","C","D"],
   answer: 1,
   explanation: "The correct answer is B.",
-  date: "2026-10-06"
+  date: "2026-10-05"
 }
 */
 
@@ -150,7 +187,7 @@ const questions = [
     q: "Which player won the 2007 PDC World Championship?",
     options: ["Phil Taylor","John Part","Raymond van Barneveld","Dennis Priestley"],
     answer: 2,
-    explanation: "Raymond van Barneveld beat Phil Taylor 7â6 in sets in the 2007 final."
+    explanation: "Raymond van Barneveld beat Phil Taylor 7-6 in sets in the 2007 final."
   },
   {
     q: "What is the value of the outer bull?",
@@ -168,7 +205,7 @@ const questions = [
     q: "Who won the 2018 PDC World Championship?",
     options: ["Michael van Gerwen","Rob Cross","Gary Anderson","Phil Taylor"],
     answer: 1,
-    explanation: "Rob Cross won the 2018 PDC World Championship, defeating Phil Taylor 7â2."
+    explanation: "Rob Cross won the 2018 PDC World Championship, defeating Phil Taylor 7-2."
   },
   {
     q: "What is the minimum possible checkout in a standard game of 501?",
@@ -177,13 +214,13 @@ const questions = [
     explanation: "The minimum checkout is 2, by hitting double 1."
   },
 
-  /* DAILY QUESTION â 6 OCTOBER 2026 */
+  /* DAILY QUESTION - 6 OCTOBER 2026 */
   {
-    q: "Which player is nicknamed 'The Power'?",
-    options: ["Phil Taylor","Gary Anderson","Michael van Gerwen","James Wade"],
+    q: "Which player was nicknamed 'The Cobra'?",
+    options: ["Jelle Klaasen","Jeffrey De Zwaan","Alan Norris","Jan Dekker"],
     answer: 0,
-    explanation: "Phil Taylor is famously nicknamed 'The Power'.",
-    date: "2026-10-06"
+    explanation: "Jelle Klaasen was nicknamed 'The Cobra'.",
+    date: "2026-10-05"
   }
 ];
 
@@ -208,23 +245,246 @@ function goHome() {
   stopTimer();
   document.getElementById("home").classList.remove("hidden");
   document.getElementById("quiz").classList.add("hidden");
+  document.getElementById("classicQuiz").classList.add("hidden");
+  document.getElementById("suddenQuiz").classList.add("hidden");
   document.getElementById("result").classList.add("hidden");
 }
 
 function startGame(selectedMode) {
   mode = selectedMode;
+  lives = 3;
+
+  if (mode === "classic") {
+    startClassic();
+    return;
+  }
+
+  if (mode === "sudden") {
+    startSudden();
+    return;
+  }
+
   gameQuestions = shuffle([...questions.filter(q => !q.date)]).slice(0, 10);
   current = 0;
   score = 0;
-  lives = 3;
   document.getElementById("home").classList.add("hidden");
   document.getElementById("result").classList.add("hidden");
+  document.getElementById("classicQuiz").classList.add("hidden");
+  document.getElementById("suddenQuiz").classList.add("hidden");
   document.getElementById("quiz").classList.remove("hidden");
-  document.getElementById("modeName").textContent =
-    mode === "classic" ? "ð¯ Classic" :
-    mode === "time" ? "â¡ Time Attack" : "â ï¸ Sudden Death";
+  document.getElementById("modeName").textContent = "[TIME] Time Attack";
   showQuestion();
 }
+
+const worldMatchplayWinners = [
+  "Luke Littler",
+  "Luke Humphries",
+  "Nathan Aspinall",
+  "Michael van Gerwen",
+  "Peter Wright",
+  "Dimitri Van den Bergh",
+  "Rob Cross",
+  "Gary Anderson",
+  "Phil Taylor",
+  "James Wade"
+];
+
+const biggestPremierLeagueVenues = [
+  "AFAS Dome",
+  "AO Arena",
+  "The O2",
+  "Uber Arena",
+  "Rotterdam Ahoy",
+  "Utilita Arena Birmingham",
+  "OVO Hydro",
+  "First Direct Arena",
+  "Utilita Arena Sheffield",
+  "3Arena"
+];
+
+let foundWinners = [];
+let foundVenues = [];
+
+function normaliseName(name) {
+  return name
+    .toLowerCase()
+    .replace(/[.'â&]/g, "")
+    .replace(/arena/g, "")
+    .replace(/centre/g, "center")
+    .replace(/utilita/g, "")
+    .replace(/m&s bank/g, "")
+    .replace(/the o2/g, "o2")
+    .replace(/[^a-z0-9]+/g, " ")
+    .trim();
+}
+
+function updateClassicLives() {
+  document.getElementById("classicLives").textContent =
+    "LIVES".repeat(lives) + "LOST".repeat(3 - lives);
+}
+
+function updateSuddenLives() {
+  document.getElementById("suddenLives").textContent =
+    "LIVES".repeat(lives) + "LOST".repeat(3 - lives);
+}
+
+function startClassic() {
+  stopTimer();
+  foundWinners = [];
+  lives = 3;
+
+  document.getElementById("home").classList.add("hidden");
+  document.getElementById("quiz").classList.add("hidden");
+  document.getElementById("suddenQuiz").classList.add("hidden");
+  document.getElementById("result").classList.add("hidden");
+  document.getElementById("classicQuiz").classList.remove("hidden");
+
+  document.getElementById("winnerInput").value = "";
+  document.getElementById("classicMessage").style.display = "none";
+  document.getElementById("foundList").innerHTML = "";
+  document.getElementById("classicStatus").textContent = "0 / 10 winners found";
+  updateClassicLives();
+  setTimeout(() => document.getElementById("winnerInput").focus(), 100);
+}
+
+function submitWinner() {
+  const input = document.getElementById("winnerInput");
+  const guess = normaliseName(input.value);
+  const message = document.getElementById("classicMessage");
+
+  if (!guess) return;
+
+  const winner = worldMatchplayWinners.find(
+    name => normaliseName(name) === guess
+  );
+
+  if (winner && !foundWinners.includes(winner)) {
+    foundWinners.push(winner);
+
+    const player = document.createElement("div");
+    player.className = "found-player";
+    player.textContent = "CORRECT! " + winner;
+    document.getElementById("foundList").appendChild(player);
+
+    message.textContent = "CORRECT! " + winner + " has been found.";
+    message.style.display = "block";
+    input.value = "";
+
+    document.getElementById("classicStatus").textContent =
+      `${foundWinners.length} / 10 winners found`;
+
+    if (foundWinners.length === 10) {
+      message.textContent = "PERFECT! You found all 10 World Matchplay winners!";
+      setTimeout(() => showClassicResult(true), 500);
+    }
+  } else if (winner && foundWinners.includes(winner)) {
+    message.textContent = winner + " has already been found. Try another name.";
+    message.style.display = "block";
+    input.select();
+  } else {
+    lives--;
+    updateClassicLives();
+    message.textContent = "WRONG! You lost one life.";
+    message.style.display = "block";
+    input.value = "";
+
+    if (lives <= 0) setTimeout(() => showClassicResult(false), 500);
+  }
+}
+
+function showClassicResult(completed) {
+  document.getElementById("classicQuiz").classList.add("hidden");
+  document.getElementById("result").classList.remove("hidden");
+  const found = foundWinners.length;
+  document.getElementById("finalScore").textContent = `${found} / 10`;
+  document.getElementById("resultMessage").textContent = completed
+    ? "PERFECT! You named all 10 different World Matchplay winners."
+    : `You found ${found} of the 10 winners before losing all 3 lives.`;
+}
+
+function startSudden() {
+  stopTimer();
+  foundVenues = [];
+  lives = 3;
+
+  document.getElementById("home").classList.add("hidden");
+  document.getElementById("quiz").classList.add("hidden");
+  document.getElementById("classicQuiz").classList.add("hidden");
+  document.getElementById("result").classList.add("hidden");
+  document.getElementById("suddenQuiz").classList.remove("hidden");
+
+  document.getElementById("venueInput").value = "";
+  document.getElementById("suddenMessage").style.display = "none";
+  document.getElementById("venueList").innerHTML = "";
+  document.getElementById("suddenStatus").textContent = "0 / 10 venues found";
+  updateSuddenLives();
+  setTimeout(() => document.getElementById("venueInput").focus(), 100);
+}
+
+function submitVenue() {
+  const input = document.getElementById("venueInput");
+  const guess = normaliseName(input.value);
+  const message = document.getElementById("suddenMessage");
+
+  if (!guess) return;
+
+  const venue = biggestPremierLeagueVenues.find(
+    name => normaliseName(name) === guess
+  );
+
+  if (venue && !foundVenues.includes(venue)) {
+    foundVenues.push(venue);
+
+    const item = document.createElement("div");
+    item.className = "found-player";
+    item.textContent = "CORRECT! " + venue;
+    document.getElementById("venueList").appendChild(item);
+
+    message.textContent = "CORRECT! " + venue + " has been found.";
+    message.style.display = "block";
+    input.value = "";
+
+    document.getElementById("suddenStatus").textContent =
+      `${foundVenues.length} / 10 venues found`;
+
+    if (foundVenues.length === 10) {
+      message.textContent = "PERFECT! You found all 10 venues!";
+      setTimeout(() => showSuddenResult(true), 500);
+    }
+  } else if (venue && foundVenues.includes(venue)) {
+    message.textContent = venue + " has already been found. Try another venue.";
+    message.style.display = "block";
+    input.select();
+  } else {
+    lives--;
+    updateSuddenLives();
+    message.textContent = "WRONG! You lost one life.";
+    message.style.display = "block";
+    input.value = "";
+
+    if (lives <= 0) setTimeout(() => showSuddenResult(false), 500);
+  }
+}
+
+function showSuddenResult(completed) {
+  document.getElementById("suddenQuiz").classList.add("hidden");
+  document.getElementById("result").classList.remove("hidden");
+  const found = foundVenues.length;
+  document.getElementById("finalScore").textContent = `${found} / 10`;
+  document.getElementById("resultMessage").textContent = completed
+    ? "PERFECT! You named all 10 biggest Premier League Darts venues."
+    : `You found ${found} of the 10 venues before losing all 3 lives.`;
+}
+
+document.getElementById("submitWinner").onclick = submitWinner;
+document.getElementById("winnerInput").addEventListener("keydown", event => {
+  if (event.key === "Enter") submitWinner();
+});
+
+document.getElementById("submitVenue").onclick = submitVenue;
+document.getElementById("venueInput").addEventListener("keydown", event => {
+  if (event.key === "Enter") submitVenue();
+});
 
 function startDaily() {
   const daily = questions.find(q => q.date === localDate());
@@ -241,8 +501,10 @@ function startDaily() {
   lives = 3;
   document.getElementById("home").classList.add("hidden");
   document.getElementById("result").classList.add("hidden");
+  document.getElementById("classicQuiz").classList.add("hidden");
+  document.getElementById("suddenQuiz").classList.add("hidden");
   document.getElementById("quiz").classList.remove("hidden");
-  document.getElementById("modeName").textContent = "ð Daily Challenge";
+  document.getElementById("modeName").textContent = "[DAILY] Daily Challenge";
   showQuestion();
 }
 
@@ -255,7 +517,7 @@ function showQuestion() {
     `Question ${current + 1} of ${gameQuestions.length}`;
   document.getElementById("question").textContent = item.q;
   document.getElementById("lives").textContent =
-    "â¤ï¸".repeat(lives) + "ð¤".repeat(3 - lives);
+    "LIVES".repeat(lives) + "LOST".repeat(3 - lives);
 
   const options = document.getElementById("options");
   options.innerHTML = "";
@@ -285,7 +547,7 @@ function showQuestion() {
 }
 
 function updateTimer() {
-  document.getElementById("timer").textContent = `â±ï¸ ${timerSeconds}s`;
+  document.getElementById("timer").textContent = `TIME ${timerSeconds}s`;
 }
 
 function stopTimer() {
@@ -310,10 +572,10 @@ function timeUp() {
 
   lives--;
   document.getElementById("lives").textContent =
-    "â¤ï¸".repeat(lives) + "ð¤".repeat(3 - lives);
+    "LIVES".repeat(lives) + "LOST".repeat(3 - lives);
 
   const feedback = document.getElementById("feedback");
-  feedback.innerHTML = "â° Time's up! " + item.explanation;
+  feedback.innerHTML = "TIME UP! Time's up! " + item.explanation;
   feedback.style.display = "block";
 
   if (lives <= 0) setTimeout(showResult, 700);
@@ -338,21 +600,21 @@ function chooseAnswer(selected, clickedButton) {
   if (selected === item.answer) {
     score++;
     clickedButton.classList.add("correct");
-    feedback.innerHTML = "â Correct! " + item.explanation;
+    feedback.innerHTML = "CORRECT! Correct! " + item.explanation;
   } else {
     clickedButton.classList.add("wrong");
 
     if (mode === "sudden") {
       lives = 0;
-      feedback.innerHTML = "â ï¸ Game over! " + item.explanation;
+      feedback.innerHTML = "[SUDDEN] Game over! " + item.explanation;
     } else {
       lives--;
-      feedback.innerHTML = "â Not quite. " + item.explanation;
+      feedback.innerHTML = "WRONG! Not quite. " + item.explanation;
     }
   }
 
   document.getElementById("lives").textContent =
-    "â¤ï¸".repeat(lives) + "ð¤".repeat(3 - lives);
+    "LIVES".repeat(lives) + "LOST".repeat(3 - lives);
   feedback.style.display = "block";
 
   if (lives <= 0) setTimeout(showResult, 700);
@@ -362,7 +624,7 @@ function chooseAnswer(selected, clickedButton) {
 function prepareNextButton() {
   const next = document.getElementById("next");
   next.textContent =
-    current === gameQuestions.length - 1 ? "See My Score â" : "Next Question â";
+    current === gameQuestions.length - 1 ? "See My Score ->" : "Next Question ->";
   next.style.display = "block";
 }
 
@@ -374,6 +636,8 @@ document.getElementById("next").onclick = () => {
 
 function showResult() {
   stopTimer();
+  document.getElementById("classicQuiz").classList.add("hidden");
+  document.getElementById("suddenQuiz").classList.add("hidden");
   document.getElementById("quiz").classList.add("hidden");
   document.getElementById("result").classList.remove("hidden");
 
@@ -387,19 +651,19 @@ function showResult() {
   let message;
 
   if (mode === "sudden" && lives <= 0) {
-    message = `â ï¸ Sudden Death ended your run after ${score} correct answer${score === 1 ? "" : "s"}.`;
+    message = `[SUDDEN] Sudden Death ended your run after ${score} correct answer${score === 1 ? "" : "s"}.`;
   } else if (lives <= 0) {
-    message = "â¤ï¸ You used all 3 lives. Have another go!";
+    message = "LIVES You used all 3 lives. Have another go!";
   } else if (percentage === 100) {
-    message = "ð¯ Perfect score! You're a Bullseye Brainbox!";
+    message = "[DARTS] Perfect score! You're a Bullseye Brainbox!";
   } else if (percentage >= 80) {
-    message = "ð¥ Excellent darts knowledge!";
+    message = " Excellent darts knowledge!";
   } else if (percentage >= 60) {
-    message = "ð Good effort â you know your darts!";
+    message = " Good effort - you know your darts!";
   } else if (percentage >= 40) {
-    message = "ð¯ Not bad! Time for a few more trips to the oche.";
+    message = "[DARTS] Not bad! Time for a few more trips to the oche.";
   } else {
-    message = "ð» Back to the practice board!";
+    message = " Back to the practice board!";
   }
 
   document.getElementById("resultMessage").textContent = message;

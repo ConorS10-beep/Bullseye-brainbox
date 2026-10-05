@@ -1,762 +1,1721 @@
-!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
-<head> <!-- Google tag (gtag.js) -->
+<head>
+<!-- Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-XWKL1YMXQ3"></script>
 <script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-XWKL1YMXQ3');
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-XWKL1YMXQ3');
 </script>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Bullseye Brainbox</title>
+
 <style>
 *{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:#07070a;color:#fff;min-height:100vh;position:relative;overflow-x:hidden}
-body:before{content:"";position:fixed;inset:0;z-index:-2;background:
-radial-gradient(circle at 50% 8%,rgba(255,40,40,.95) 0 2px,transparent 3px),
-radial-gradient(circle at 50% 8%,transparent 0 42px,rgba(255,190,40,.65) 43px 45px,transparent 46px),
-radial-gradient(circle at 18% 16%,rgba(255,45,45,.95) 0 2px,transparent 3px),
-radial-gradient(circle at 18% 16%,transparent 0 32px,rgba(255,180,30,.7) 33px 35px,transparent 36px),
-radial-gradient(circle at 82% 16%,rgba(255,45,45,.95) 0 2px,transparent 3px),
-radial-gradient(circle at 82% 16%,transparent 0 32px,rgba(70,220,100,.7) 33px 35px,transparent 36px),
-linear-gradient(180deg,#07070a 0%,#160b0d 48%,#07070a 100%);}
-body:after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:
-repeating-conic-gradient(from 0deg at 18% 16%,rgba(255,70,70,.55) 0deg 1deg,transparent 1deg 10deg),
-repeating-conic-gradient(from 20deg at 82% 16%,rgba(255,210,60,.5) 0deg 1deg,transparent 1deg 10deg),
-repeating-conic-gradient(from 45deg at 50% 8%,rgba(70,230,100,.5) 0deg 1deg,transparent 1deg 10deg);opacity:.8}
-.container{max-width:700px;margin:0 auto;padding:24px 16px 40px;position:relative}
 
-.header{text-align:center;margin-bottom:20px;position:relative;padding:12px 8px 18px}
-.dart{font-size:48px;filter:drop-shadow(0 0 12px rgba(255,45,45,.8))}
-h1{margin:8px 0 6px;font-size:34px;letter-spacing:1px;text-shadow:0 3px 0 #000,0 0 18px rgba(255,45,45,.65)}
-.subtitle{color:#ffd34d;margin:0;font-weight:bold;text-shadow:0 0 10px rgba(255,190,40,.5)}
-.card{background:rgba(20,20,22,.94);border-radius:16px;padding:22px;box-shadow:0 8px 30px rgba(0,0,0,.6),0 0 35px rgba(226,27,45,.18);border:1px solid rgba(255,55,55,.45)}
-.mode-grid{display:grid;gap:12px;margin-top:18px}
-.mode{background:#2c2c2c;color:#fff;border:2px solid transparent;text-align:left}
-.mode:hover{border-color:#e21b2d}.mode strong{display:block;font-size:19px;margin-bottom:5px}.mode span{color:#bbb;font-size:14px}
-.topbar{display:flex;justify-content:space-between;gap:10px;align-items:center;color:#ddd;font-size:14px;margin-bottom:14px;flex-wrap:wrap}
-.lives{letter-spacing:2px}.timer{font-weight:bold;color:#ffcf33}
-.progress{color:#bbb;font-size:14px;margin-bottom:14px}
-.question{font-size:23px;line-height:1.35;margin:0 0 20px}
-.options{display:grid;gap:12px}
-button{border:0;border-radius:12px;padding:15px 16px;font-size:17px;cursor:pointer}
-.option{background:#2c2c2c;color:#fff;text-align:left;border:2px solid transparent}
-.option:hover{border-color:#e21b2d}.option:disabled{cursor:default;opacity:1}
-.correct{background:#174f2a!important;border-color:#35b85a!important}
-.wrong{background:#5a1c24!important;border-color:#e24b5b!important}
-.feedback{margin-top:16px;padding:14px;border-radius:10px;background:#292929;color:#ddd;display:none;line-height:1.45}
-.next,.restart{width:100%;margin-top:16px;background:#e21b2d;color:#fff;font-weight:bold}
-.result{text-align:center}.result h2{font-size:30px;margin-top:0}.result .big{font-size:54px;font-weight:bold;margin:10px 0}
-.hidden{display:none}.share-note{text-align:center;color:#aaa;font-size:13px;margin-top:18px}
-.small-note{color:#aaa;font-size:13px;line-height:1.4}
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#07070a;
+  color:#fff;
+  min-height:100vh;
+  position:relative;
+  overflow-x:hidden
+}
 
-.classic-title{text-align:center;font-size:28px;margin:0 0 8px}
-.classic-subtitle{text-align:center;color:#bbb;margin:0 0 18px}
-.name-input{width:100%;padding:15px 16px;border-radius:12px;border:2px solid #444;background:#2c2c2c;color:#fff;font-size:17px;outline:none}
-.name-input:focus{border-color:#e21b2d}
-.submit-name{width:100%;margin-top:12px;background:#e21b2d;color:#fff;font-weight:bold}
-.found-list{margin-top:18px;display:grid;gap:8px}
-.found-player{background:#174f2a;border:2px solid #35b85a;border-radius:10px;padding:11px 13px}
-.classic-status{text-align:center;color:#bbb;margin:14px 0 0}
+body:before{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:-2;
+  background:
+  radial-gradient(circle at 50% 8%,rgba(255,40,40,.95) 0 2px,transparent 3px),
+  radial-gradient(circle at 50% 8%,transparent 0 42px,rgba(255,190,40,.65) 43px 45px,transparent 46px),
+  radial-gradient(circle at 18% 16%,rgba(255,45,45,.95) 0 2px,transparent 3px),
+  radial-gradient(circle at 18% 16%,transparent 0 32px,rgba(255,180,30,.7) 33px 35px,transparent 36px),
+  radial-gradient(circle at 82% 16%,rgba(255,45,45,.95) 0 2px,transparent 3px),
+  radial-gradient(circle at 82% 16%,transparent 0 32px,rgba(70,220,100,.7) 33px 35px,transparent 36px),
+  linear-gradient(180deg,#07070a 0%,#160b0d 48%,#07070a 100%);
+}
+
+body:after{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:-1;
+  pointer-events:none;
+  background:
+  repeating-conic-gradient(from 0deg at 18% 16%,rgba(255,70,70,.55) 0deg 1deg,transparent 1deg 10deg),
+  repeating-conic-gradient(from 20deg at 82% 16%,rgba(255,210,60,.5) 0deg 1deg,transparent 1deg 10deg),
+  repeating-conic-gradient(from 45deg at 50% 8%,rgba(70,230,100,.5) 0deg 1deg,transparent 1deg 10deg);
+  opacity:.8
+}
+
+.container{
+  max-width:700px;
+  margin:0 auto;
+  padding:24px 16px 40px;
+  position:relative
+}
+
+.header{
+  text-align:center;
+  margin-bottom:20px;
+  position:relative;
+  padding:12px 8px 18px
+}
+
+.dart{
+  font-size:48px;
+  filter:drop-shadow(0 0 12px rgba(255,45,45,.8))
+}
+
+h1{
+  margin:8px 0 6px;
+  font-size:34px;
+  letter-spacing:1px;
+  text-shadow:0 3px 0 #000,0 0 18px rgba(255,45,45,.65)
+}
+
+.subtitle{
+  color:#ffd34d;
+  margin:0;
+  font-weight:bold;
+  text-shadow:0 0 10px rgba(255,190,40,.5)
+}
+
+.card{
+  background:rgba(20,20,22,.94);
+  border-radius:16px;
+  padding:22px;
+  box-shadow:0 8px 30px rgba(0,0,0,.6),0 0 35px rgba(226,27,45,.18);
+  border:1px solid rgba(255,55,55,.45)
+}
+
+.mode-grid{
+  display:grid;
+  gap:12px;
+  margin-top:18px
+}
+
+.mode{
+  background:#2c2c2c;
+  color:#fff;
+  border:2px solid transparent;
+  text-align:left
+}
+
+.mode:hover{
+  border-color:#e21b2d
+}
+
+.mode strong{
+  display:block;
+  font-size:19px;
+  margin-bottom:5px
+}
+
+.mode span{
+  color:#bbb;
+  font-size:14px
+}
+
+.topbar{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  align-items:center;
+  color:#ddd;
+  font-size:14px;
+  margin-bottom:14px;
+  flex-wrap:wrap
+}
+
+.lives{
+  letter-spacing:2px
+}
+
+.timer{
+  font-weight:bold;
+  color:#ffcf33
+}
+
+.progress{
+  color:#bbb;
+  font-size:14px;
+  margin-bottom:14px
+}
+
+.question{
+  font-size:23px;
+  line-height:1.35;
+  margin:0 0 20px
+}
+
+.options{
+  display:grid;
+  gap:12px
+}
+
+button{
+  border:0;
+  border-radius:12px;
+  padding:15px 16px;
+  font-size:17px;
+  cursor:pointer
+}
+
+.option{
+  background:#2c2c2c;
+  color:#fff;
+  text-align:left;
+  border:2px solid transparent
+}
+
+.option:hover{
+  border-color:#e21b2d
+}
+
+.option:disabled{
+  cursor:default;
+  opacity:1
+}
+
+.correct{
+  background:#174f2a!important;
+  border-color:#35b85a!important
+}
+
+.wrong{
+  background:#5a1c24!important;
+  border-color:#e24b5b!important
+}
+
+.feedback{
+  margin-top:16px;
+  padding:14px;
+  border-radius:10px;
+  background:#292929;
+  color:#ddd;
+  display:none;
+  line-height:1.45
+}
+
+.next,
+.restart{
+  width:100%;
+  margin-top:16px;
+  background:#e21b2d;
+  color:#fff;
+  font-weight:bold
+}
+
+.result{
+  text-align:center
+}
+
+.result h2{
+  font-size:30px;
+  margin-top:0
+}
+
+.result .big{
+  font-size:54px;
+  font-weight:bold;
+  margin:10px 0
+}
+
+.hidden{
+  display:none
+}
+
+.share-note{
+  text-align:center;
+  color:#aaa;
+  font-size:13px;
+  margin-top:18px
+}
+
+.small-note{
+  color:#aaa;
+  font-size:13px;
+  line-height:1.4
+}
+
+.classic-title{
+  text-align:center;
+  font-size:28px;
+  margin:0 0 8px
+}
+
+.classic-subtitle{
+  text-align:center;
+  color:#bbb;
+  margin:0 0 18px
+}
+
+.name-input{
+  width:100%;
+  padding:15px 16px;
+  border-radius:12px;
+  border:2px solid #444;
+  background:#2c2c2c;
+  color:#fff;
+  font-size:17px;
+  outline:none
+}
+
+.name-input:focus{
+  border-color:#e21b2d
+}
+
+.submit-name{
+  width:100%;
+  margin-top:12px;
+  background:#e21b2d;
+  color:#fff;
+  font-weight:bold
+}
+
+.found-list{
+  margin-top:18px;
+  display:grid;
+  gap:8px
+}
+
+.found-player{
+  background:#174f2a;
+  border:2px solid #35b85a;
+  border-radius:10px;
+  padding:11px 13px
+}
+
+.classic-status{
+  text-align:center;
+  color:#bbb;
+  margin:14px 0 0
+}
 </style>
 </head>
+
 <body>
+
 <div class="container">
-  <div class="header">
-    <div class="dart">[DARTS]</div>
-    <h1>Bullseye Brainbox</h1>
-    <p class="subtitle">The Medium Darts Quiz</p>
-  </div>
 
-  <div class="card">
-    <div id="home">
-      <h2>Choose your game mode</h2>
-      <div class="mode-grid">
-        <button class="mode" onclick="startGame('classic')">
-          <strong>[DARTS] Classic Quiz</strong>
-          <span>10 questions  -  3 lives</span>
-        </button>
-        <button class="mode" onclick="startGame('time')">
-          <strong>[TIME] Time Attack</strong>
-          <span>10 questions  -  30 seconds per question  -  3 lives</span>
-        </button>
-        <button class="mode" onclick="startGame('sudden')">
-          <strong>[SUDDEN] Sudden Death</strong>
-          <span>One wrong answer and the game is over</span>
-        </button>
-        <button class="mode" onclick="startDaily()">
-          <strong>[DAILY] Daily Challenge</strong>
-          <span>Today's special darts question</span>
-        </button>
-      </div>
-      <p class="small-note">Every game starts with 3 lives. Wrong answers cost a life except in Sudden Death, where one wrong answer ends the game immediately.</p>
-    </div>
-
-    <div id="classicQuiz" class="hidden">
-      <div class="topbar">
-        <span>Classic Quiz</span>
-        <span id="classicLives" class="lives">LIVESLIVESLIVES</span>
-      </div>
-      <h2 class="classic-title">Last 10 Different World Matchplay Winners</h2>
-      <p class="classic-subtitle">Type a winner into the box. Find all 10 before you lose your 3 lives.</p>
-      <input id="winnerInput" class="name-input" type="text" autocomplete="off" placeholder="Type a player's name...">
-      <button id="submitWinner" class="submit-name">Submit Answer</button>
-      <div id="classicMessage" class="feedback"></div>
-      <div id="foundList" class="found-list"></div>
-      <p id="classicStatus" class="classic-status">0 / 10 winners found</p>
-    </div>
-
-    <div id="suddenQuiz" class="hidden">
-      <div class="topbar">
-        <span>Sudden Death</span>
-        <span id="suddenLives" class="lives">LIVESLIVESLIVES</span>
-      </div>
-      <h2 class="classic-title">Top 10 Biggest Premier League Darts Venues</h2>
-      <p class="classic-subtitle">Type a venue into the box. Find all 10 before you lose your 3 lives.</p>
-      <input id="venueInput" class="name-input" type="text" autocomplete="off" placeholder="Type a venue name...">
-      <button id="submitVenue" class="submit-name">Submit Answer</button>
-      <div id="suddenMessage" class="feedback"></div>
-      <div id="venueList" class="found-list"></div>
-      <p id="suddenStatus" class="classic-status">0 / 10 venues found</p>
-    </div>
-
-    <div id="quiz" class="hidden">
-      <div class="topbar">
-        <span id="modeName"></span>
-        <span id="lives" class="lives">LIVESLIVESLIVES</span>
-        <span id="timer" class="timer"></span>
-      </div>
-      <div class="progress" id="progress"></div>
-      <h2 class="question" id="question"></h2>
-      <div class="options" id="options"></div>
-      <div class="feedback" id="feedback"></div>
-      <button class="next" id="next">Next Question -></button>
-    </div>
-
-    <div id="result" class="result hidden">
-      <h2>Quiz Complete!</h2>
-      <div class="big" id="finalScore"></div>
-      <p id="resultMessage"></p>
-      <div id="missedAnswers" class="hidden" style="margin:18px 0;text-align:left;">
-        <h3>Answers You Missed</h3>
-        <div id="missedAnswersList"></div>
-      </div>
-      <button class="restart" onclick="goHome()">Choose Another Mode</button>
-    </div>
-  </div>
-
-  <p class="share-note">Bullseye Brainbox  -  Darts knowledge starts at the oche.</p>
+<div class="header">
+<div class="dart">🎯</div>
+<h1>Bullseye Brainbox</h1>
+<p class="subtitle">The Medium Darts Quiz</p>
 </div>
 
+<div class="card">
+
+<div id="home">
+
+<h2>Choose your game mode</h2>
+
+<div class="mode-grid">
+
+<button class="mode" onclick="startGame('classic')">
+<strong>🎯 Classic Quiz</strong>
+<span>10 players - 3 lives</span>
+</button>
+
+<button class="mode" onclick="startGame('time')">
+<strong>⏱️ Time Attack</strong>
+<span>10 Phil Taylor career questions - 30 seconds per question - 3 lives</span>
+</button>
+
+<button class="mode" onclick="startGame('sudden')">
+<strong>💀 Sudden Death</strong>
+<span>10 tough 1990s questions - one wrong answer ends the game</span>
+</button>
+
+<button class="mode" onclick="startDaily()">
+<strong>📅 Daily Challenge</strong>
+<span>Today's special darts question</span>
+</button>
+
+</div>
+
+<p class="small-note">
+Every game starts with 3 lives. Wrong answers cost a life except in Sudden Death, where one wrong answer ends the game immediately.
+</p>
+
+</div>
+
+
+<!-- CLASSIC -->
+
+<div id="classicQuiz" class="hidden">
+
+<div class="topbar">
+<span>Classic Quiz</span>
+<span id="classicLives" class="lives">LIVESLIVESLIVES</span>
+</div>
+
+<h2 class="classic-title">
+Name 10 Players Who Have Hit a 9-Darter at Ally Pally
+</h2>
+
+<p class="classic-subtitle">
+Type a player's name into the box. Find all 10 before you lose your 3 lives.
+</p>
+
+<input
+id="winnerInput"
+class="name-input"
+type="text"
+autocomplete="off"
+placeholder="Type a player's name..."
+>
+
+<button id="submitWinner" class="submit-name">
+Submit Answer
+</button>
+
+<div id="classicMessage" class="feedback"></div>
+
+<div id="foundList" class="found-list"></div>
+
+<p id="classicStatus" class="classic-status">
+0 / 10 players found
+</p>
+
+</div>
+
+
+<!-- NORMAL QUIZ -->
+
+<div id="quiz" class="hidden">
+
+<div class="topbar">
+
+<span id="modeName"></span>
+
+<span id="lives" class="lives">
+LIVESLIVESLIVES
+</span>
+
+<span id="timer" class="timer"></span>
+
+</div>
+
+<div class="progress" id="progress"></div>
+
+<h2 class="question" id="question"></h2>
+
+<div class="options" id="options"></div>
+
+<div class="feedback" id="feedback"></div>
+
+<button class="next" id="next">
+Next Question →
+</button>
+
+</div>
+
+
+<!-- RESULT -->
+
+<div id="result" class="result hidden">
+
+<h2>Quiz Complete!</h2>
+
+<div class="big" id="finalScore"></div>
+
+<p id="resultMessage"></p>
+
+<div
+id="missedAnswers"
+class="hidden"
+style="margin:18px 0;text-align:left;"
+>
+
+<h3>Answers You Missed</h3>
+
+<div id="missedAnswersList"></div>
+
+</div>
+
+<button class="restart" onclick="goHome()">
+Choose Another Mode
+</button>
+
+</div>
+
+</div>
+
+<p class="share-note">
+Bullseye Brainbox - Darts knowledge starts at the oche.
+</p>
+
+</div>
+
+
 <script>
-/*
-EASY DAILY QUESTION SYSTEM
 
-Normal question:
-{
-  q: "Your question?",
-  options: ["Answer 1","Answer 2","Answer 3","Answer 4"],
-  answer: 0,
-  explanation: "Why it is correct."
-}
-
-answer 0 = first option
-answer 1 = second option
-answer 2 = third option
-answer 3 = fourth option
-
-Daily question: add date: "YYYY-MM-DD"
-Example:
-{
-  q: "Your daily question?",
-  options: ["A","B","C","D"],
-  answer: 1,
-  explanation: "The correct answer is B.",
-  date: "2026-10-05"
-}
-*/
+/* =========================
+   GENERAL QUESTIONS
+========================= */
 
 const questions = [
-  {
-    q: "Which player is nicknamed 'The Nuke'?",
-    options: ["Luke Littler","Michael Smith","Nathan Aspinall","Rob Cross"],
-    answer: 0,
-    explanation: "Luke Littler is known as 'The Nuke'."
-  },
-  {
-    q: "What is the highest possible checkout in standard darts?",
-    options: ["167","168","169","170"],
-    answer: 3,
-    explanation: "The highest checkout is 170: treble 20, treble 20, bullseye."
-  },
-  {
-    q: "Who was the first player to complete a televised nine-dart finish?",
-    options: ["Phil Taylor","John Lowe","Eric Bristow","Jocky Wilson"],
-    answer: 1,
-    explanation: "John Lowe achieved the first televised nine-dart finish in 1984."
-  },
-  {
-    q: "Which player is known as 'Snakebite'?",
-    options: ["Gary Anderson","Peter Wright","Raymond van Barneveld","James Wade"],
-    answer: 1,
-    explanation: "Peter Wright is nicknamed 'Snakebite'."
-  },
-  {
-    q: "How many numbered scoring segments are there on a standard dartboard?",
-    options: ["18","20","22","24"],
-    answer: 1,
-    explanation: "A standard dartboard has 20 numbered scoring segments."
-  },
-  {
-    q: "Which player won the 2007 PDC World Championship?",
-    options: ["Phil Taylor","John Part","Raymond van Barneveld","Dennis Priestley"],
-    answer: 2,
-    explanation: "Raymond van Barneveld beat Phil Taylor 7-6 in sets in the 2007 final."
-  },
-  {
-    q: "What is the value of the outer bull?",
-    options: ["20","25","50","75"],
-    answer: 1,
-    explanation: "The outer bull, or bull ring, is worth 25 points."
-  },
-  {
-    q: "Which player is nicknamed 'The Machine'?",
-    options: ["James Wade","Michael van Gerwen","Gerwyn Price","Dimitri Van den Bergh"],
-    answer: 0,
-    explanation: "James Wade is known as 'The Machine'."
-  },
-  {
-    q: "Who won the 2018 PDC World Championship?",
-    options: ["Michael van Gerwen","Rob Cross","Gary Anderson","Phil Taylor"],
-    answer: 1,
-    explanation: "Rob Cross won the 2018 PDC World Championship, defeating Phil Taylor 7-2."
-  },
-  {
-    q: "What is the minimum possible checkout in a standard game of 501?",
-    options: ["1","2","3","4"],
-    answer: 1,
-    explanation: "The minimum checkout is 2, by hitting double 1."
-  },
 
-  /* DAILY QUESTION - 6 OCTOBER 2026 */
-  {
-    q: "Which player was nicknamed 'The Cobra'?",
-    options: ["Jelle Klaasen","Jeffrey De Zwaan","Alan Norris","Jan Dekker"],
-    answer: 0,
-    explanation: "Jelle Klaasen was nicknamed 'The Cobra'.",
-    date: "2026-10-05"
-  }
+{
+q:"Which player is nicknamed 'The Nuke'?",
+options:[
+"Luke Littler",
+"Michael Smith",
+"Nathan Aspinall",
+"Rob Cross"
+],
+answer:0,
+explanation:"Luke Littler is known as 'The Nuke'."
+},
+
+{
+q:"What is the highest possible checkout in standard darts?",
+options:[
+"167",
+"168",
+"169",
+"170"
+],
+answer:3,
+explanation:"The highest checkout is 170: treble 20, treble 20, bullseye."
+},
+
+{
+q:"Who was the first player to complete a televised nine-dart finish?",
+options:[
+"Phil Taylor",
+"John Lowe",
+"Eric Bristow",
+"Jocky Wilson"
+],
+answer:1,
+explanation:"John Lowe achieved the first televised nine-dart finish in 1984."
+},
+
+{
+q:"Which player is known as 'Snakebite'?",
+options:[
+"Gary Anderson",
+"Peter Wright",
+"Raymond van Barneveld",
+"James Wade"
+],
+answer:1,
+explanation:"Peter Wright is nicknamed 'Snakebite'."
+},
+
+{
+q:"How many numbered scoring segments are there on a standard dartboard?",
+options:[
+"18",
+"20",
+"22",
+"24"
+],
+answer:1,
+explanation:"A standard dartboard has 20 numbered scoring segments."
+},
+
+{
+q:"Which player won the 2007 PDC World Championship?",
+options:[
+"Phil Taylor",
+"John Part",
+"Raymond van Barneveld",
+"Dennis Priestley"
+],
+answer:2,
+explanation:"Raymond van Barneveld beat Phil Taylor 7-6 in sets in the 2007 final."
+},
+
+{
+q:"What is the value of the outer bull?",
+options:[
+"20",
+"25",
+"50",
+"75"
+],
+answer:1,
+explanation:"The outer bull, or bull ring, is worth 25 points."
+},
+
+{
+q:"Which player is nicknamed 'The Machine'?",
+options:[
+"James Wade",
+"Michael van Gerwen",
+"Gerwyn Price",
+"Dimitri Van den Bergh"
+],
+answer:0,
+explanation:"James Wade is known as 'The Machine'."
+},
+
+{
+q:"Who won the 2018 PDC World Championship?",
+options:[
+"Michael van Gerwen",
+"Rob Cross",
+"Gary Anderson",
+"Phil Taylor"
+],
+answer:1,
+explanation:"Rob Cross won the 2018 PDC World Championship, defeating Phil Taylor 7-2."
+},
+
+{
+q:"What is the minimum possible checkout in a standard game of 501?",
+options:[
+"1",
+"2",
+"3",
+"4"
+],
+answer:1,
+explanation:"The minimum checkout is 2, by hitting double 1."
+},
+
+
+/* DAILY QUESTION - 6 OCTOBER 2026 */
+
+{
+q:"Who was the first Irish player to win a PDC major title?",
+options:[
+"Brendan Dolan",
+"Daryl Gurney",
+"William O'Connor",
+"Steve Lennon"
+],
+answer:1,
+explanation:"Daryl Gurney became the first Irish player to win a PDC major title when he won the 2017 World Grand Prix.",
+date:"2026-10-06"
+}
+
 ];
 
-let mode = "classic";
-let gameQuestions = [];
-let current = 0;
-let score = 0;
-let lives = 3;
-let answered = false;
-let timerSeconds = 30;
-let timerInterval = null;
 
-function localDate() {
-  const d = new Date();
-  const y = d.getFullYear();
-  const m = String(d.getMonth() + 1).padStart(2, "0");
-  const day = String(d.getDate()).padStart(2, "0");
-  return `${y}-${m}-${day}`;
+/* =========================
+   PHIL TAYLOR TIME ATTACK
+========================= */
+
+const philTaylorQuestions = [
+
+{
+q:"How many PDC World Championship titles did Phil Taylor win?",
+options:[
+"12",
+"13",
+"14",
+"15"
+],
+answer:1,
+explanation:"Phil Taylor won 13 PDC World Championship titles."
+},
+
+{
+q:"Who did Phil Taylor defeat in the 1995 PDC World Championship final?",
+options:[
+"Rod Harrington",
+"Dennis Priestley",
+"Peter Evison",
+"Bob Anderson"
+],
+answer:1,
+explanation:"Taylor defeated Dennis Priestley in the 1995 PDC World Championship final."
+},
+
+{
+q:"Which player did Phil Taylor defeat in the 2003 PDC World Championship final?",
+options:[
+"Kevin Painter",
+"Colin Lloyd",
+"Shayne Burgess",
+"Dennis Priestley"
+],
+answer:0,
+explanation:"Taylor defeated Kevin Painter 7-0 in the 2003 final."
+},
+
+{
+q:"How many consecutive PDC World Championship finals did Phil Taylor reach from 1994 to 2003?",
+options:[
+"8",
+"9",
+"10",
+"11"
+],
+answer:2,
+explanation:"Taylor reached the final in every PDC World Championship from 1994 through 2003."
+},
+
+{
+q:"Who did Phil Taylor defeat in the 2007 PDC World Championship final?",
+options:[
+"Raymond van Barneveld",
+"Adrian Lewis",
+"Terry Jenkins",
+"Dennis Priestley"
+],
+answer:2,
+explanation:"Taylor defeated Terry Jenkins 7-1 in the 2007 final."
+},
+
+{
+q:"How many World Matchplay titles did Phil Taylor win?",
+options:[
+"14",
+"15",
+"16",
+"17"
+],
+answer:2,
+explanation:"Taylor won the World Matchplay title 16 times."
+},
+
+{
+q:"Who did Phil Taylor defeat in the 2003 World Matchplay final?",
+options:[
+"Wayne Mardle",
+"Colin Lloyd",
+"Peter Manley",
+"Dennis Priestley"
+],
+answer:0,
+explanation:"Taylor defeated Wayne Mardle 18-12 in the 2003 World Matchplay final."
+},
+
+{
+q:"Who did Phil Taylor defeat in the 2015 World Matchplay final?",
+options:[
+"Michael van Gerwen",
+"Gary Anderson",
+"Adrian Lewis",
+"Peter Wright"
+],
+answer:0,
+explanation:"Taylor defeated Michael van Gerwen 18-12 in the 2015 World Matchplay final."
+},
+
+{
+q:"How many Premier League titles did Phil Taylor win?",
+options:[
+"5",
+"6",
+"7",
+"8"
+],
+answer:2,
+explanation:"Taylor won the Premier League seven times."
+},
+
+{
+q:"Who defeated Phil Taylor in his final professional match?",
+options:[
+"Rob Cross",
+"Michael van Gerwen",
+"Gary Anderson",
+"Adrian Lewis"
+],
+answer:0,
+explanation:"Rob Cross defeated Phil Taylor in the 2018 World Championship final, Taylor's final professional match."
 }
 
-function goHome() {
-  stopTimer();
-  document.getElementById("home").classList.remove("hidden");
-  document.getElementById("quiz").classList.add("hidden");
-  document.getElementById("classicQuiz").classList.add("hidden");
-  document.getElementById("suddenQuiz").classList.add("hidden");
-  document.getElementById("result").classList.add("hidden");
-}
-
-function startGame(selectedMode) {
-  mode = selectedMode;
-  lives = 3;
-  missedAnswers = [];
-
-  if (mode === "classic") {
-    startClassic();
-    return;
-  }
-
-  if (mode === "sudden") {
-    startSudden();
-    return;
-  }
-
-  gameQuestions = shuffle([...questions.filter(q => !q.date)]).slice(0, 10);
-  current = 0;
-  score = 0;
-  document.getElementById("home").classList.add("hidden");
-  document.getElementById("result").classList.add("hidden");
-  document.getElementById("classicQuiz").classList.add("hidden");
-  document.getElementById("suddenQuiz").classList.add("hidden");
-  document.getElementById("quiz").classList.remove("hidden");
-  document.getElementById("modeName").textContent = "[TIME] Time Attack";
-  showQuestion();
-}
-
-const worldMatchplayWinners = [
-  "Luke Littler",
-  "Luke Humphries",
-  "Nathan Aspinall",
-  "Michael van Gerwen",
-  "Peter Wright",
-  "Dimitri Van den Bergh",
-  "Rob Cross",
-  "Gary Anderson",
-  "Phil Taylor",
-  "James Wade"
 ];
 
-const biggestPremierLeagueVenues = [
-  "AFAS Dome",
-  "AO Arena",
-  "The O2",
-  "Uber Arena",
-  "Rotterdam Ahoy",
-  "Utilita Arena Birmingham",
-  "OVO Hydro",
-  "First Direct Arena",
-  "Utilita Arena Sheffield",
-  "3Arena"
+
+/* =========================
+   SUDDEN DEATH - 1990s
+========================= */
+
+const suddenDeathQuestions = [
+
+{
+q:"Who won the 1990 BDO World Championship?",
+options:[
+"Phil Taylor",
+"Eric Bristow",
+"Dennis Priestley",
+"John Lowe"
+],
+answer:2,
+explanation:"Dennis Priestley won the 1990 BDO World Championship."
+},
+
+{
+q:"Who did John Boy Walton defeat in the 1994 BDO World Championship final?",
+options:[
+"Richie Burnett",
+"Phil Taylor",
+"Bobby George",
+"Ronnie Baxter"
+],
+answer:1,
+explanation:"John Boy Walton defeated Phil Taylor in the 1994 BDO World Championship final."
+},
+
+{
+q:"Who won the first PDC World Championship in 1994?",
+options:[
+"Dennis Priestley",
+"Phil Taylor",
+"Rod Harrington",
+"Keith Deller"
+],
+answer:0,
+explanation:"Dennis Priestley won the inaugural PDC World Championship in 1994."
+},
+
+{
+q:"Who was the first player to win the PDC World Championship twice?",
+options:[
+"Phil Taylor",
+"Dennis Priestley",
+"John Part",
+"Rod Harrington"
+],
+answer:0,
+explanation:"Phil Taylor became the first player to win the PDC World Championship twice."
+},
+
+{
+q:"Which player won the 1995 PDC World Championship?",
+options:[
+"Phil Taylor",
+"Dennis Priestley",
+"Peter Evison",
+"Rod Harrington"
+],
+answer:1,
+explanation:"Dennis Priestley won the 1995 PDC World Championship."
+},
+
+{
+q:"Who won the 1998 PDC World Championship?",
+options:[
+"Phil Taylor",
+"Dennis Priestley",
+"Rod Harrington",
+"Ronnie Baxter"
+],
+answer:2,
+explanation:"Rod Harrington won the 1998 PDC World Championship."
+},
+
+{
+q:"Who did Dennis Priestley defeat in the 1991 BDO World Championship final?",
+options:[
+"Eric Bristow",
+"Keith Deller",
+"Jocky Wilson",
+"Phil Taylor"
+],
+answer:0,
+explanation:"Dennis Priestley defeated Eric Bristow in the 1991 BDO World Championship final."
+},
+
+{
+q:"Who won the 1996 PDC World Championship?",
+options:[
+"Phil Taylor",
+"Dennis Priestley",
+"Rod Harrington",
+"Peter Evison"
+],
+answer:0,
+explanation:"Phil Taylor won the 1996 PDC World Championship."
+},
+
+{
+q:"Who did Phil Taylor defeat in the 1997 PDC World Championship final?",
+options:[
+"Dennis Priestley",
+"Peter Evison",
+"Rod Harrington",
+"Alan Warriner-Little"
+],
+answer:1,
+explanation:"Phil Taylor defeated Peter Evison in the 1997 PDC World Championship final."
+},
+
+{
+q:"Who won the 1999 PDC World Championship?",
+options:[
+"Phil Taylor",
+"Dennis Priestley",
+"Rod Harrington",
+"Peter Manley"
+],
+answer:0,
+explanation:"Phil Taylor won the 1999 PDC World Championship, defeating Peter Manley in the final."
+}
+
 ];
 
-let foundWinners = [];
-let foundVenues = [];
-let missedAnswers = [];
 
-function normaliseName(name) {
-  return name
-    .toLowerCase()
-    .replace(/[.'Ã¢ÂÂ&]/g, "")
-    .replace(/arena/g, "")
-    .replace(/centre/g, "center")
-    .replace(/utilita/g, "")
-    .replace(/m&s bank/g, "")
-    .replace(/the o2/g, "o2")
-    .replace(/[^a-z0-9]+/g, " ")
-    .trim();
+/* =========================
+   GAME VARIABLES
+========================= */
+
+let mode="classic";
+let gameQuestions=[];
+let current=0;
+let score=0;
+let lives=3;
+let answered=false;
+let timerSeconds=30;
+let timerInterval=null;
+
+let foundWinners=[];
+let missedAnswers=[];
+
+
+/* =========================
+   DATE
+========================= */
+
+function localDate(){
+
+const d=new Date();
+
+const y=d.getFullYear();
+
+const m=String(d.getMonth()+1).padStart(2,"0");
+
+const day=String(d.getDate()).padStart(2,"0");
+
+return `${y}-${m}-${day}`;
+
 }
 
-// FULL NAME OR SURNAME MATCHING: player-name answers accept either the full name or surname.
-function playerAnswerMatches(player, guess) {
-  const fullName = normaliseName(player);
-  const surname = normaliseName(player.split(" ").slice(1).join(" "));
-  return guess === fullName || guess === surname;
+
+/* =========================
+   HOME
+========================= */
+
+function goHome(){
+
+stopTimer();
+
+document.getElementById("home").classList.remove("hidden");
+
+document.getElementById("quiz").classList.add("hidden");
+
+document.getElementById("classicQuiz").classList.add("hidden");
+
+document.getElementById("result").classList.add("hidden");
+
 }
 
-function updateClassicLives() {
-  document.getElementById("classicLives").textContent =
-    "LIVES".repeat(lives) + "LOST".repeat(3 - lives);
+
+/* =========================
+   START GAME
+========================= */
+
+function startGame(selectedMode){
+
+mode=selectedMode;
+
+lives=3;
+
+if(mode==="classic"){
+
+startClassic();
+
+return;
+
 }
 
-function updateSuddenLives() {
-  document.getElementById("suddenLives").textContent =
-    "LIVES".repeat(lives) + "LOST".repeat(3 - lives);
+if(mode==="sudden"){
+
+startSudden();
+
+return;
+
 }
 
-function startClassic() {
-  stopTimer();
-  foundWinners = [];
-  missedAnswers = [];
-  lives = 3;
+gameQuestions=shuffle([...philTaylorQuestions]).slice(0,10);
 
-  document.getElementById("home").classList.add("hidden");
-  document.getElementById("quiz").classList.add("hidden");
-  document.getElementById("suddenQuiz").classList.add("hidden");
-  document.getElementById("result").classList.add("hidden");
-  document.getElementById("classicQuiz").classList.remove("hidden");
+current=0;
 
-  document.getElementById("winnerInput").value = "";
-  document.getElementById("classicMessage").style.display = "none";
-  document.getElementById("foundList").innerHTML = "";
-  document.getElementById("classicStatus").textContent = "0 / 10 winners found";
-  updateClassicLives();
-  setTimeout(() => document.getElementById("winnerInput").focus(), 100);
+score=0;
+
+document.getElementById("home").classList.add("hidden");
+
+document.getElementById("result").classList.add("hidden");
+
+document.getElementById("classicQuiz").classList.add("hidden");
+
+document.getElementById("quiz").classList.remove("hidden");
+
+document.getElementById("modeName").textContent="⏱️ Phil Taylor Time Attack";
+
+showQuestion();
+
 }
 
-function submitWinner() {
-  const input = document.getElementById("winnerInput");
-  const guess = normaliseName(input.value);
-  const message = document.getElementById("classicMessage");
 
-  if (!guess) return;
+/* =========================
+   CLASSIC
+========================= */
 
-  const winner = worldMatchplayWinners.find(
-    name => playerAnswerMatches(name, guess)
-  );
+const worldMatchplayWinners=[
 
-  if (winner && !foundWinners.includes(winner)) {
-    foundWinners.push(winner);
+"Raymond van Barneveld",
+"Adrian Lewis",
+"Dean Winstanley",
+"Michael van Gerwen",
+"Terry Jenkins",
+"Kyle Anderson",
+"Gary Anderson",
+"James Wade",
+"William Borland",
+"Darius Labanauskas"
 
-    const player = document.createElement("div");
-    player.className = "found-player";
-    player.textContent = "CORRECT! " + winner;
-    document.getElementById("foundList").appendChild(player);
+];
 
-    message.textContent = "CORRECT! " + winner + " has been found.";
-    message.style.display = "block";
-    input.value = "";
 
-    document.getElementById("classicStatus").textContent =
-      `${foundWinners.length} / 10 winners found`;
+function normaliseName(name){
 
-    if (foundWinners.length === 10) {
-      message.textContent = "PERFECT! You found all 10 World Matchplay winners!";
-      setTimeout(() => showClassicResult(true), 500);
-    }
-  } else if (winner && foundWinners.includes(winner)) {
-    message.textContent = winner + " has already been found. Try another name.";
-    message.style.display = "block";
-    input.select();
-  } else {
-    lives--;
-    updateClassicLives();
-    message.textContent = "WRONG! You lost one life.";
-    message.style.display = "block";
-    input.value = "";
+return name
+.toLowerCase()
+.replace(/[.'’&]/g,"")
+.replace(/[^a-z0-9]+/g," ")
+.trim();
 
-    if (lives <= 0) setTimeout(() => showClassicResult(false), 500);
-  }
 }
 
-function showClassicResult(completed) {
-  document.getElementById("classicQuiz").classList.add("hidden");
-  document.getElementById("result").classList.remove("hidden");
-  const found = foundWinners.length;
-  document.getElementById("finalScore").textContent = `${found} / 10`;
-  document.getElementById("resultMessage").textContent = completed
-    ? "PERFECT! You named all 10 different World Matchplay winners."
-    : `You found ${found} of the 10 winners before losing all 3 lives.`;
 
-  if (!completed) {
-    showMissedAnswers(worldMatchplayWinners.filter(name => !foundWinners.includes(name)));
-  } else {
-    hideMissedAnswers();
-  }
+function playerAnswerMatches(player,guess){
+
+const fullName=normaliseName(player);
+
+const parts=player.split(" ");
+
+const surname=normaliseName(parts[parts.length-1]);
+
+return guess===fullName||guess===surname;
+
 }
 
-function startSudden() {
-  stopTimer();
-  foundVenues = [];
-  missedAnswers = [];
-  lives = 3;
 
-  document.getElementById("home").classList.add("hidden");
-  document.getElementById("quiz").classList.add("hidden");
-  document.getElementById("classicQuiz").classList.add("hidden");
-  document.getElementById("result").classList.add("hidden");
-  document.getElementById("suddenQuiz").classList.remove("hidden");
+function updateClassicLives(){
 
-  document.getElementById("venueInput").value = "";
-  document.getElementById("suddenMessage").style.display = "none";
-  document.getElementById("venueList").innerHTML = "";
-  document.getElementById("suddenStatus").textContent = "0 / 10 venues found";
-  updateSuddenLives();
-  setTimeout(() => document.getElementById("venueInput").focus(), 100);
+document.getElementById("classicLives").textContent=
+"LIVES".repeat(lives)+"LOST".repeat(3-lives);
+
 }
 
-function submitVenue() {
-  const input = document.getElementById("venueInput");
-  const guess = normaliseName(input.value);
-  const message = document.getElementById("suddenMessage");
 
-  if (!guess) return;
+function startClassic(){
 
-  const venue = biggestPremierLeagueVenues.find(
-    name => normaliseName(name) === guess
-  );
+stopTimer();
 
-  if (venue && !foundVenues.includes(venue)) {
-    foundVenues.push(venue);
+foundWinners=[];
 
-    const item = document.createElement("div");
-    item.className = "found-player";
-    item.textContent = "CORRECT! " + venue;
-    document.getElementById("venueList").appendChild(item);
+lives=3;
 
-    message.textContent = "CORRECT! " + venue + " has been found.";
-    message.style.display = "block";
-    input.value = "";
+document.getElementById("home").classList.add("hidden");
 
-    document.getElementById("suddenStatus").textContent =
-      `${foundVenues.length} / 10 venues found`;
+document.getElementById("quiz").classList.add("hidden");
 
-    if (foundVenues.length === 10) {
-      message.textContent = "PERFECT! You found all 10 venues!";
-      setTimeout(() => showSuddenResult(true), 500);
-    }
-  } else if (venue && foundVenues.includes(venue)) {
-    message.textContent = venue + " has already been found. Try another venue.";
-    message.style.display = "block";
-    input.select();
-  } else {
-    lives--;
-    updateSuddenLives();
-    message.textContent = "WRONG! You lost one life.";
-    message.style.display = "block";
-    input.value = "";
+document.getElementById("result").classList.add("hidden");
 
-    if (lives <= 0) setTimeout(() => showSuddenResult(false), 500);
-  }
+document.getElementById("classicQuiz").classList.remove("hidden");
+
+document.getElementById("winnerInput").value="";
+
+document.getElementById("classicMessage").style.display="none";
+
+document.getElementById("foundList").innerHTML="";
+
+document.getElementById("classicStatus").textContent="0 / 10 players found";
+
+updateClassicLives();
+
+setTimeout(
+()=>document.getElementById("winnerInput").focus(),
+100
+);
+
 }
 
-function showSuddenResult(completed) {
-  document.getElementById("suddenQuiz").classList.add("hidden");
-  document.getElementById("result").classList.remove("hidden");
-  const found = foundVenues.length;
-  document.getElementById("finalScore").textContent = `${found} / 10`;
-  document.getElementById("resultMessage").textContent = completed
-    ? "PERFECT! You named all 10 biggest Premier League Darts venues."
-    : `You found ${found} of the 10 venues before losing all 3 lives.`;
 
-  if (!completed) {
-    showMissedAnswers(biggestPremierLeagueVenues.filter(name => !foundVenues.includes(name)));
-  } else {
-    hideMissedAnswers();
-  }
+function submitWinner(){
+
+const input=document.getElementById("winnerInput");
+
+const guess=normaliseName(input.value);
+
+const message=document.getElementById("classicMessage");
+
+if(!guess)return;
+
+const winner=worldMatchplayWinners.find(
+name=>playerAnswerMatches(name,guess)
+);
+
+
+if(winner&&!foundWinners.includes(winner)){
+
+foundWinners.push(winner);
+
+const player=document.createElement("div");
+
+player.className="found-player";
+
+player.textContent="CORRECT! "+winner;
+
+document.getElementById("foundList").appendChild(player);
+
+message.textContent="CORRECT! "+winner+" has been found.";
+
+message.style.display="block";
+
+input.value="";
+
+document.getElementById("classicStatus").textContent=
+`${foundWinners.length} / 10 players found`;
+
+if(foundWinners.length===10){
+
+setTimeout(
+()=>showClassicResult(true),
+500
+);
+
 }
 
-document.getElementById("submitWinner").onclick = submitWinner;
-document.getElementById("winnerInput").addEventListener("keydown", event => {
-  if (event.key === "Enter") submitWinner();
-});
-
-document.getElementById("submitVenue").onclick = submitVenue;
-document.getElementById("venueInput").addEventListener("keydown", event => {
-  if (event.key === "Enter") submitVenue();
-});
-
-function startDaily() {
-  const daily = questions.find(q => q.date === localDate());
-
-  if (!daily) {
-    alert("Today's Daily Challenge hasn't been added yet. Add a question with today's date in the questions section.");
-    return;
-  }
-
-  mode = "daily";
-  missedAnswers = [];
-  gameQuestions = [daily];
-  current = 0;
-  score = 0;
-  lives = 3;
-  document.getElementById("home").classList.add("hidden");
-  document.getElementById("result").classList.add("hidden");
-  document.getElementById("classicQuiz").classList.add("hidden");
-  document.getElementById("suddenQuiz").classList.add("hidden");
-  document.getElementById("quiz").classList.remove("hidden");
-  document.getElementById("modeName").textContent = "[DAILY] Daily Challenge";
-  showQuestion();
 }
 
-function showQuestion() {
-  stopTimer();
-  answered = false;
+else if(winner&&foundWinners.includes(winner)){
 
-  const item = gameQuestions[current];
-  document.getElementById("progress").textContent =
-    `Question ${current + 1} of ${gameQuestions.length}`;
-  document.getElementById("question").textContent = item.q;
-  document.getElementById("lives").textContent =
-    "LIVES".repeat(lives) + "LOST".repeat(3 - lives);
+message.textContent=
+winner+" has already been found. Try another name.";
 
-  const options = document.getElementById("options");
-  options.innerHTML = "";
+message.style.display="block";
 
-  item.options.forEach((option, i) => {
-    const btn = document.createElement("button");
-    btn.className = "option";
-    btn.textContent = option;
-    btn.onclick = () => chooseAnswer(i, btn);
-    options.appendChild(btn);
-  });
+input.select();
 
-  document.getElementById("feedback").style.display = "none";
-  document.getElementById("next").style.display = "none";
-
-  if (mode === "time") {
-    timerSeconds = 30;
-    updateTimer();
-    timerInterval = setInterval(() => {
-      timerSeconds--;
-      updateTimer();
-      if (timerSeconds <= 0) timeUp();
-    }, 1000);
-  } else {
-    document.getElementById("timer").textContent = "";
-  }
 }
 
-function updateTimer() {
-  document.getElementById("timer").textContent = `TIME ${timerSeconds}s`;
+else{
+
+lives--;
+
+updateClassicLives();
+
+message.textContent="WRONG! You lost one life.";
+
+message.style.display="block";
+
+input.value="";
+
+if(lives<=0){
+
+setTimeout(
+()=>showClassicResult(false),
+500
+);
+
 }
 
-function stopTimer() {
-  if (timerInterval) {
-    clearInterval(timerInterval);
-    timerInterval = null;
-  }
 }
 
-function timeUp() {
-  if (answered) return;
-  answered = true;
-  stopTimer();
-
-  const item = gameQuestions[current];
-  const buttons = document.querySelectorAll(".option");
-
-  buttons.forEach((btn, i) => {
-    btn.disabled = true;
-    if (i === item.answer) btn.classList.add("correct");
-  });
-
-  lives--;
-  if (!missedAnswers.includes(item.options[item.answer])) missedAnswers.push(item.options[item.answer]);
-  document.getElementById("lives").textContent =
-    "LIVES".repeat(lives) + "LOST".repeat(3 - lives);
-
-  const feedback = document.getElementById("feedback");
-  feedback.innerHTML = "TIME UP! Time's up! " + item.explanation;
-  feedback.style.display = "block";
-
-  if (lives <= 0) setTimeout(showResult, 700);
-  else prepareNextButton();
 }
 
-function chooseAnswer(selected, clickedButton) {
-  if (answered) return;
-  answered = true;
-  stopTimer();
 
-  const item = gameQuestions[current];
-  const buttons = document.querySelectorAll(".option");
+function showClassicResult(completed){
 
-  buttons.forEach((btn, i) => {
-    btn.disabled = true;
-    if (i === item.answer) btn.classList.add("correct");
-  });
+document.getElementById("classicQuiz").classList.add("hidden");
 
-  const feedback = document.getElementById("feedback");
+document.getElementById("result").classList.remove("hidden");
 
-  if (selected === item.answer) {
-    score++;
-    clickedButton.classList.add("correct");
-    feedback.innerHTML = "CORRECT! Correct! " + item.explanation;
-  } else {
-    clickedButton.classList.add("wrong");
-    if (!missedAnswers.includes(item.options[item.answer])) missedAnswers.push(item.options[item.answer]);
+const found=foundWinners.length;
 
-    if (mode === "sudden") {
-      lives = 0;
-      feedback.innerHTML = "[SUDDEN] Game over! " + item.explanation;
-    } else {
-      lives--;
-      feedback.innerHTML = "WRONG! Not quite. " + item.explanation;
-    }
-  }
+document.getElementById("finalScore").textContent=
+`${found} / 10`;
 
-  document.getElementById("lives").textContent =
-    "LIVES".repeat(lives) + "LOST".repeat(3 - lives);
-  feedback.style.display = "block";
+document.getElementById("resultMessage").textContent=
+completed
+?
+"PERFECT! You named all 10 players who hit a nine-darter at Ally Pally."
+:
+`You found ${found} of the 10 players before losing all 3 lives.`;
 
-  if (lives <= 0) setTimeout(showResult, 700);
-  else prepareNextButton();
+hideMissedAnswers();
+
 }
 
-function prepareNextButton() {
-  const next = document.getElementById("next");
-  next.textContent =
-    current === gameQuestions.length - 1 ? "See My Score ->" : "Next Question ->";
-  next.style.display = "block";
+
+document.getElementById("submitWinner").onclick=submitWinner;
+
+document.getElementById("winnerInput").addEventListener(
+"keydown",
+event=>{
+if(event.key==="Enter")submitWinner();
+}
+);
+
+
+/* =========================
+   SUDDEN DEATH
+========================= */
+
+function startSudden(){
+
+stopTimer();
+
+mode="sudden";
+
+gameQuestions=[...suddenDeathQuestions];
+
+current=0;
+
+score=0;
+
+lives=3;
+
+missedAnswers=[];
+
+document.getElementById("home").classList.add("hidden");
+
+document.getElementById("classicQuiz").classList.add("hidden");
+
+document.getElementById("result").classList.add("hidden");
+
+document.getElementById("quiz").classList.remove("hidden");
+
+document.getElementById("modeName").textContent="💀 Sudden Death";
+
+showQuestion();
+
 }
 
-document.getElementById("next").onclick = () => {
-  current++;
-  if (current < gameQuestions.length) showQuestion();
-  else showResult();
+
+/* =========================
+   DAILY
+========================= */
+
+function startDaily(){
+
+const daily=questions.find(
+q=>q.date===localDate()
+);
+
+if(!daily){
+
+alert(
+"Today's Daily Challenge hasn't been added yet."
+);
+
+return;
+
+}
+
+mode="daily";
+
+missedAnswers=[];
+
+gameQuestions=[daily];
+
+current=0;
+
+score=0;
+
+lives=3;
+
+document.getElementById("home").classList.add("hidden");
+
+document.getElementById("result").classList.add("hidden");
+
+document.getElementById("classicQuiz").classList.add("hidden");
+
+document.getElementById("quiz").classList.remove("hidden");
+
+document.getElementById("modeName").textContent="📅 Daily Challenge";
+
+showQuestion();
+
+}
+
+
+/* =========================
+   SHOW QUESTION
+========================= */
+
+function showQuestion(){
+
+stopTimer();
+
+answered=false;
+
+const item=gameQuestions[current];
+
+document.getElementById("progress").textContent=
+`Question ${current+1} of ${gameQuestions.length}`;
+
+document.getElementById("question").textContent=item.q;
+
+document.getElementById("lives").textContent=
+"LIVES".repeat(lives)+"LOST".repeat(3-lives);
+
+const options=document.getElementById("options");
+
+options.innerHTML="";
+
+item.options.forEach(
+(option,i)=>{
+
+const btn=document.createElement("button");
+
+btn.className="option";
+
+btn.textContent=option;
+
+btn.onclick=()=>chooseAnswer(i,btn);
+
+options.appendChild(btn);
+
+}
+);
+
+document.getElementById("feedback").style.display="none";
+
+document.getElementById("next").style.display="none";
+
+
+if(mode==="time"){
+
+timerSeconds=30;
+
+updateTimer();
+
+timerInterval=setInterval(
+()=>{
+
+timerSeconds--;
+
+updateTimer();
+
+if(timerSeconds<=0){
+
+timeUp();
+
+}
+
+},
+1000
+);
+
+}
+
+else{
+
+document.getElementById("timer").textContent="";
+
+}
+
+}
+
+
+/* =========================
+   TIMER
+========================= */
+
+function updateTimer(){
+
+document.getElementById("timer").textContent=
+`TIME ${timerSeconds}s`;
+
+}
+
+
+function stopTimer(){
+
+if(timerInterval){
+
+clearInterval(timerInterval);
+
+timerInterval=null;
+
+}
+
+}
+
+
+function timeUp(){
+
+if(answered)return;
+
+answered=true;
+
+stopTimer();
+
+const item=gameQuestions[current];
+
+const buttons=document.querySelectorAll(".option");
+
+buttons.forEach(
+(btn,i)=>{
+
+btn.disabled=true;
+
+if(i===item.answer){
+
+btn.classList.add("correct");
+
+}
+
+}
+);
+
+lives--;
+
+missedAnswers.push(
+item.options[item.answer]
+);
+
+document.getElementById("lives").textContent=
+"LIVES".repeat(lives)+"LOST".repeat(3-lives);
+
+const feedback=document.getElementById("feedback");
+
+feedback.innerHTML=
+"TIME UP! "+item.explanation;
+
+feedback.style.display="block";
+
+if(lives<=0){
+
+setTimeout(
+showResult,
+700
+);
+
+}
+
+else{
+
+prepareNextButton();
+
+}
+
+}
+
+
+/* =========================
+   ANSWER
+========================= */
+
+function chooseAnswer(selected,clickedButton){
+
+if(answered)return;
+
+answered=true;
+
+stopTimer();
+
+const item=gameQuestions[current];
+
+const buttons=document.querySelectorAll(".option");
+
+buttons.forEach(
+(btn,i)=>{
+
+btn.disabled=true;
+
+if(i===item.answer){
+
+btn.classList.add("correct");
+
+}
+
+}
+);
+
+const feedback=document.getElementById("feedback");
+
+
+if(selected===item.answer){
+
+score++;
+
+clickedButton.classList.add("correct");
+
+feedback.innerHTML=
+"CORRECT! "+item.explanation;
+
+}
+
+else{
+
+clickedButton.classList.add("wrong");
+
+missedAnswers.push(
+item.options[item.answer]
+);
+
+
+if(mode==="sudden"){
+
+lives=0;
+
+feedback.innerHTML=
+"💀 GAME OVER! "+item.explanation;
+
+}
+
+else{
+
+lives--;
+
+feedback.innerHTML=
+"WRONG! "+item.explanation;
+
+}
+
+}
+
+
+document.getElementById("lives").textContent=
+"LIVES".repeat(lives)+"LOST".repeat(3-lives);
+
+feedback.style.display="block";
+
+
+if(lives<=0){
+
+setTimeout(
+showResult,
+700
+);
+
+}
+
+else{
+
+prepareNextButton();
+
+}
+
+}
+
+
+/* =========================
+   NEXT BUTTON
+========================= */
+
+function prepareNextButton(){
+
+const next=document.getElementById("next");
+
+next.textContent=
+current===gameQuestions.length-1
+?
+"See My Score →"
+:
+"Next Question →";
+
+next.style.display="block";
+
+}
+
+
+document.getElementById("next").onclick=()=>{
+
+current++;
+
+if(current<gameQuestions.length){
+
+showQuestion();
+
+}
+
+else{
+
+showResult();
+
+}
+
 };
 
-function showMissedAnswers(answers) {
-  const box = document.getElementById("missedAnswers");
-  const list = document.getElementById("missedAnswersList");
-  if (!answers || answers.length === 0) {
-    hideMissedAnswers();
-    return;
-  }
-  list.innerHTML = answers.map(answer => `<div class="found-player">${answer}</div>`).join("");
-  box.classList.remove("hidden");
+
+/* =========================
+   RESULT
+========================= */
+
+function showResult(){
+
+stopTimer();
+
+document.getElementById("classicQuiz").classList.add("hidden");
+
+document.getElementById("quiz").classList.add("hidden");
+
+document.getElementById("result").classList.remove("hidden");
+
+const percentage=gameQuestions.length
+?
+Math.round(
+(score/gameQuestions.length)*100
+)
+:
+0;
+
+document.getElementById("finalScore").textContent=
+`${score} / ${gameQuestions.length} (${percentage}%)`;
+
+let message;
+
+
+if(mode==="sudden"&&lives<=0){
+
+message=
+`💀 Game over! You got ${score} question${score===1?"":"s"} right before your first wrong answer.`;
+
 }
 
-function hideMissedAnswers() {
-  const box = document.getElementById("missedAnswers");
-  const list = document.getElementById("missedAnswersList");
-  list.innerHTML = "";
-  box.classList.add("hidden");
+else if(lives<=0){
+
+message=
+"You used all 3 lives. Have another go!";
+
 }
 
-function showResult() {
-  stopTimer();
-  document.getElementById("classicQuiz").classList.add("hidden");
-  document.getElementById("suddenQuiz").classList.add("hidden");
-  document.getElementById("quiz").classList.add("hidden");
-  document.getElementById("result").classList.remove("hidden");
+else if(percentage===100){
 
-  const percentage = gameQuestions.length
-    ? Math.round((score / gameQuestions.length) * 100)
-    : 0;
+message=
+"🎯 Perfect score! You're a Bullseye Brainbox!";
 
-  document.getElementById("finalScore").textContent =
-    `${score} / ${gameQuestions.length} (${percentage}%)`;
-
-  let message;
-
-  if (mode === "sudden" && lives <= 0) {
-    message = `[SUDDEN] Sudden Death ended your run after ${score} correct answer${score === 1 ? "" : "s"}.`;
-  } else if (lives <= 0) {
-    message = "LIVES You used all 3 lives. Have another go!";
-  } else if (percentage === 100) {
-    message = "[DARTS] Perfect score! You're a Bullseye Brainbox!";
-  } else if (percentage >= 80) {
-    message = " Excellent darts knowledge!";
-  } else if (percentage >= 60) {
-    message = " Good effort - you know your darts!";
-  } else if (percentage >= 40) {
-    message = "[DARTS] Not bad! Time for a few more trips to the oche.";
-  } else {
-    message = " Back to the practice board!";
-  }
-
-  document.getElementById("resultMessage").textContent = message;
-
-  if (lives <= 0) {
-    if (mode === "time" || mode === "daily") {
-      showMissedAnswers(missedAnswers);
-    } else {
-      hideMissedAnswers();
-    }
-  } else {
-    hideMissedAnswers();
-  }
 }
 
-function shuffle(array) {
-  for (let i = array.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]];
-  }
-  return array;
+else if(percentage>=80){
+
+message=
+"🔥 Excellent darts knowledge!";
+
 }
+
+else if(percentage>=60){
+
+message=
+"👏 Good effort - you know your darts!";
+
+}
+
+else if(percentage>=40){
+
+message=
+"🎯 Not bad! Time for a few more trips to the oche.";
+
+}
+
+else{
+
+message=
+"🍻 Back to the practice board!";
+
+}
+
+
+document.getElementById("resultMessage").textContent=
+message;
+
+
+if(lives<=0&&(mode==="time"||mode==="daily")){
+
+showMissedAnswers(missedAnswers);
+
+}
+
+else{
+
+hideMissedAnswers();
+
+}
+
+}
+
+
+/* =========================
+   MISSED ANSWERS
+========================= */
+
+function showMissedAnswers(answers){
+
+const box=document.getElementById("missedAnswers");
+
+const list=document.getElementById("missedAnswersList");
+
+if(!answers||answers.length===0){
+
+hideMissedAnswers();
+
+return;
+
+}
+
+list.innerHTML=
+answers.map(
+answer=>
+`<div class="found-player">${answer}</div>`
+).join("");
+
+box.classList.remove("hidden");
+
+}
+
+
+function hideMissedAnswers(){
+
+const box=document.getElementById("missedAnswers");
+
+const list=document.getElementById("missedAnswersList");
+
+list.innerHTML="";
+
+box.classList.add("hidden");
+
+}
+
+
+/* =========================
+   SHUFFLE
+========================= */
+
+function shuffle(array){
+
+for(
+let i=array.length-1;
+i>0;
+i--
+){
+
+const j=Math.floor(
+Math.random()*(i+1)
+);
+
+[array[i],array[j]]=
+[array[j],array[i]];
+
+}
+
+return array;
+
+}
+
 </script>
+
 </body>
 </html>

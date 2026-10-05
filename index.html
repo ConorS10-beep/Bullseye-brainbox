@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+!DOCTYPE html>
 <html lang="en">
 <head> <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-XWKL1YMXQ3"></script>
@@ -14,11 +14,26 @@
 <title>Bullseye Brainbox</title>
 <style>
 *{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:#111;color:#fff;min-height:100vh}
-.container{max-width:700px;margin:0 auto;padding:24px 16px 40px}
-.header{text-align:center;margin-bottom:20px}.dart{font-size:48px}
-h1{margin:8px 0 6px;font-size:34px}.subtitle{color:#bbb;margin:0}
-.card{background:#1d1d1d;border-radius:16px;padding:22px;box-shadow:0 8px 30px rgba(0,0,0,.35)}
+body{margin:0;font-family:Arial,sans-serif;background:#07070a;color:#fff;min-height:100vh;position:relative;overflow-x:hidden}
+body:before{content:"";position:fixed;inset:0;z-index:-2;background:
+radial-gradient(circle at 50% 8%,rgba(255,40,40,.95) 0 2px,transparent 3px),
+radial-gradient(circle at 50% 8%,transparent 0 42px,rgba(255,190,40,.65) 43px 45px,transparent 46px),
+radial-gradient(circle at 18% 16%,rgba(255,45,45,.95) 0 2px,transparent 3px),
+radial-gradient(circle at 18% 16%,transparent 0 32px,rgba(255,180,30,.7) 33px 35px,transparent 36px),
+radial-gradient(circle at 82% 16%,rgba(255,45,45,.95) 0 2px,transparent 3px),
+radial-gradient(circle at 82% 16%,transparent 0 32px,rgba(70,220,100,.7) 33px 35px,transparent 36px),
+linear-gradient(180deg,#07070a 0%,#160b0d 48%,#07070a 100%);}
+body:after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:
+repeating-conic-gradient(from 0deg at 18% 16%,rgba(255,70,70,.55) 0deg 1deg,transparent 1deg 10deg),
+repeating-conic-gradient(from 20deg at 82% 16%,rgba(255,210,60,.5) 0deg 1deg,transparent 1deg 10deg),
+repeating-conic-gradient(from 45deg at 50% 8%,rgba(70,230,100,.5) 0deg 1deg,transparent 1deg 10deg);opacity:.8}
+.container{max-width:700px;margin:0 auto;padding:24px 16px 40px;position:relative}
+
+.header{text-align:center;margin-bottom:20px;position:relative;padding:12px 8px 18px}
+.dart{font-size:48px;filter:drop-shadow(0 0 12px rgba(255,45,45,.8))}
+h1{margin:8px 0 6px;font-size:34px;letter-spacing:1px;text-shadow:0 3px 0 #000,0 0 18px rgba(255,45,45,.65)}
+.subtitle{color:#ffd34d;margin:0;font-weight:bold;text-shadow:0 0 10px rgba(255,190,40,.5)}
+.card{background:rgba(20,20,22,.94);border-radius:16px;padding:22px;box-shadow:0 8px 30px rgba(0,0,0,.6),0 0 35px rgba(226,27,45,.18);border:1px solid rgba(255,55,55,.45)}
 .mode-grid{display:grid;gap:12px;margin-top:18px}
 .mode{background:#2c2c2c;color:#fff;border:2px solid transparent;text-align:left}
 .mode:hover{border-color:#e21b2d}.mode strong{display:block;font-size:19px;margin-bottom:5px}.mode span{color:#bbb;font-size:14px}
@@ -322,7 +337,7 @@ let missedAnswers = [];
 function normaliseName(name) {
   return name
     .toLowerCase()
-    .replace(/[.'â&]/g, "")
+    .replace(/[.'Ã¢ÂÂ&]/g, "")
     .replace(/arena/g, "")
     .replace(/centre/g, "center")
     .replace(/utilita/g, "")

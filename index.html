@@ -1,4 +1,4 @@
-!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -318,6 +318,13 @@ function normaliseName(name) {
     .trim();
 }
 
+// FULL NAME OR SURNAME MATCHING: player-name answers accept either the full name or surname.
+function playerAnswerMatches(player, guess) {
+  const fullName = normaliseName(player);
+  const surname = normaliseName(player.split(" ").slice(1).join(" "));
+  return guess === fullName || guess === surname;
+}
+
 function updateClassicLives() {
   document.getElementById("classicLives").textContent =
     "LIVES".repeat(lives) + "LOST".repeat(3 - lives);
@@ -355,7 +362,7 @@ function submitWinner() {
   if (!guess) return;
 
   const winner = worldMatchplayWinners.find(
-    name => normaliseName(name) === guess
+    name => playerAnswerMatches(name, guess)
   );
 
   if (winner && !foundWinners.includes(winner)) {

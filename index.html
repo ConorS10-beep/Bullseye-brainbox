@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bullseye Brainbox</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #111;
+    color: #fff;
+    min-height: 100vh;
+  }
+  .container {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 24px 16px 40px;
+  }
+  .header {
+    text-align: center;
+    margin-bottom: 24px;
+  }
+  .dart { font-size: 48px; }
+  h1 { margin: 8px 0 6px; font-size: 34px; }
+  .subtitle { color: #bbb; margin: 0; }
+  .card {
+    background: #1d1d1d;
+    border-radius: 16px;
+    padding: 22px;
+    box-shadow: 0 8px 30px rgba(0,0,0,.35);
+  }
+  .progress {
+    color: #bbb;
+    font-size: 14px;
+    margin-bottom: 14px;
+  }
+  .question {
+    font-size: 23px;
+    line-height: 1.35;
+    margin: 0 0 20px;
+  }
+  .options { display: grid; gap: 12px; }
+  button {
+    border: 0;
+    border-radius: 12px;
+    padding: 15px 16px;
+    font-size: 17px;
+    cursor: pointer;
+  }
+  .option {
+    background: #2c2c2c;
+    color: white;
+    text-align: left;
+    border: 2px solid transparent;
+  }
+  .option:hover { border-color: #e21b2d; }
+  .option:disabled { cursor: default; opacity: 1; }
+  .correct { background: #174f2a !important; border-color: #35b85a !important; }
+  .wrong { background: #5a1c24 !important; border-color: #e24b5b !important; }
+  .feedback {
+    margin-top: 16px;
+    padding: 14px;
+    border-radius: 10px;
+    background: #292929;
+    color: #ddd;
+    display: none;
+    line-height: 1.45;
+  }
+  .next {
+    width: 100%;
+    margin-top: 16px;
+    background: #e21b2d;
+    color: white;
+    font-weight: bold;
+    display: none;
+  }
+  .next:hover { background: #c91525; }
+  .score {
+    text-align: center;
+    padding: 12px 0 6px;
+    color: #ddd;
+  }
+  .result h2 { font-size: 30px; margin-top: 0; }
+  .result .big { font-size: 54px; font-weight: bold; margin: 10px 0; }
+  .restart { width: 100%; background: #e21b2d; color: white; font-weight: bold; }
+  .hidden { display: none; }
+  .share-note {
+    text-align: center;
+    color: #aaa;
+    font-size: 13px;
+    margin-top: 18px;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <div class="dart">🎯</div>
+    <h1>Bullseye Brainbox</h1>
+    <p class="subtitle">The Medium Darts Quiz</p>
+  </div>
+
+  <div class="card">
+    <div id="quiz">
+      <div class="progress" id="progress"></div>
+      <h2 class="question" id="question"></h2>
+      <div class="options" id="options"></div>
+      <div class="feedback" id="feedback"></div>
+      <button class="next" id="next">Next Question →</button>
+    </div>
+
+    <div id="result" class="result hidden">
+      <h2>Quiz Complete!</h2>
+      <div class="big" id="finalScore"></div>
+      <p id="resultMessage"></p>
+      <button class="restart" onclick="startQuiz()">Play Again</button>
+    </div>
+  </div>
+
+  <p class="share-note">No timer — take your time and test your darts knowledge.</p>
+</div>
+
+<script>
+const questions = [
+  {
+    q: "Which player is nicknamed 'The Nuke'?",
+    options: ["Luke Littler", "Michael Smith", "Nathan Aspinall", "Rob Cross"],
+    answer: 0,
+    explanation: "Luke Littler is known as 'The Nuke'."
+  },
+  {
+    q: "What is the highest possible checkout in standard darts?",
+    options: ["167", "168", "169", "170"],
+    answer: 3,
+    explanation: "The highest checkout is 170: treble 20, treble 20, bullseye."
+  },
+  {
+    q: "Who was the first player to complete a televised nine-dart finish?",
+    options: ["Phil Taylor", "John Lowe", "Eric Bristow", "Jocky Wilson"],
+    answer: 1,
+    explanation: "John Lowe achieved the first televised nine-dart finish in 1984."
+  },
+  {
+    q: "Which player is known as 'Snakebite'?",
+    options: ["Gary Anderson", "Peter Wright", "Raymond van Barneveld", "James Wade"],
+    answer: 1,
+    explanation: "Peter Wright is nicknamed 'Snakebite'."
+  },
+  {
+    q: "How many numbered scoring segments are there on a standard dartboard?",
+    options: ["18", "20", "22", "24"],
+    answer: 1,
+    explanation: "A standard dartboard has 20 numbered scoring segments."
+  },
+  {
+    q: "Which player won the 2007 PDC World Championship?",
+    options: ["Phil Taylor", "John Part", "Raymond van Barneveld", "Dennis Priestley"],
+    answer: 2,
+    explanation: "Raymond van Barneveld beat Phil Taylor 7–6 in sets in the 2007 final."
+  },
+  {
+    q: "What is the value of the outer bull?",
+    options: ["20", "25", "50", "75"],
+    answer: 1,
+    explanation: "The outer bull, or bull ring, is worth 25 points."
+  },
+  {
+    q: "Which player is nicknamed 'The Machine'?",
+    options: ["James Wade", "Michael van Gerwen", "Gerwyn Price", "Dimitri Van den Bergh"],
+    answer: 0,
+    explanation: "James Wade is known as 'The Machine'."
+  },
+  {
+    q: "Who won the 2018 PDC World Championship?",
+    options: ["Michael van Gerwen", "Rob Cross", "Gary Anderson", "Phil Taylor"],
+    answer: 1,
+    explanation: "Rob Cross won the 2018 PDC World Championship, defeating Phil Taylor 7–2."
+  },
+  {
+    q: "What is the minimum possible checkout in a standard game of 501?",
+    options: ["1", "2", "3", "4"],
+    answer: 1,
+    explanation: "The minimum checkout is 2, by hitting double 1."
+  }
+];
+
+let current = 0;
+let score = 0;
+
+function startQuiz() {
+  current = 0;
+  score = 0;
+  document.getElementById("quiz").classList.remove("hidden");
+  document.getElementById("result").classList.add("hidden");
+  showQuestion();
+}
+
+function showQuestion() {
+  const item = questions[current];
+  document.getElementById("progress").textContent =
+    `Question ${current + 1} of ${questions.length}`;
+  document.getElementById("question").textContent = item.q;
+
+  const options = document.getElementById("options");
+  options.innerHTML = "";
+
+  item.options.forEach((option, i) => {
+    const btn = document.createElement("button");
+    btn.className = "option";
+    btn.textContent = option;
+    btn.onclick = () => chooseAnswer(i, btn);
+    options.appendChild(btn);
+  });
+
+  document.getElementById("feedback").style.display = "none";
+  document.getElementById("next").style.display = "none";
+}
+
+function chooseAnswer(selected, clickedButton) {
+  const item = questions[current];
+  const buttons = document.querySelectorAll(".option");
+
+  buttons.forEach((btn, i) => {
+    btn.disabled = true;
+    if (i === item.answer) btn.classList.add("correct");
+  });
+
+  const feedback = document.getElementById("feedback");
+  if (selected === item.answer) {
+    score++;
+    clickedButton.classList.add("correct");
+    feedback.innerHTML = "✅ Correct! " + item.explanation;
+  } else {
+    clickedButton.classList.add("wrong");
+    feedback.innerHTML = "❌ Not quite. " + item.explanation;
+  }
+
+  feedback.style.display = "block";
+  const next = document.getElementById("next");
+  next.textContent = current === questions.length - 1 ? "See My Score →" : "Next Question →";
+  next.style.display = "block";
+}
+
+document.getElementById("next").onclick = () => {
+  current++;
+  if (current < questions.length) {
+    showQuestion();
+  } else {
+    showResult();
+  }
+};
+
+function showResult() {
+  document.getElementById("quiz").classList.add("hidden");
+  document.getElementById("result").classList.remove("hidden");
+
+  const percentage = Math.round((score / questions.length) * 100);
+  document.getElementById("finalScore").textContent =
+    `${score} / ${questions.length} (${percentage}%)`;
+
+  let message;
+  if (score === 10) message = "🎯 Perfect score! You're a Bullseye Brainbox!";
+  else if (score >= 8) message = "🔥 Excellent darts knowledge!";
+  else if (score >= 6) message = "👏 Good effort — you know your darts!";
+  else if (score >= 4) message = "🎯 Not bad! Time for a few more trips to the oche.";
+  else message = "🍻 Back to the practice board!";
+  document.getElementById("resultMessage").textContent = message;
+}
+
+startQuiz();
+</script>
+</body>
+</html>

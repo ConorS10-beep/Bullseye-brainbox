@@ -5,203 +5,257 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Bullseye Brainbox</title>
 <style>
-  * { box-sizing: border-box; }
-  body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: #111;
-    color: #fff;
-    min-height: 100vh;
-  }
-  .container {
-    max-width: 700px;
-    margin: 0 auto;
-    padding: 24px 16px 40px;
-  }
-  .header {
-    text-align: center;
-    margin-bottom: 24px;
-  }
-  .dart { font-size: 48px; }
-  h1 { margin: 8px 0 6px; font-size: 34px; }
-  .subtitle { color: #bbb; margin: 0; }
-  .card {
-    background: #1d1d1d;
-    border-radius: 16px;
-    padding: 22px;
-    box-shadow: 0 8px 30px rgba(0,0,0,.35);
-  }
-  .progress {
-    color: #bbb;
-    font-size: 14px;
-    margin-bottom: 14px;
-  }
-  .question {
-    font-size: 23px;
-    line-height: 1.35;
-    margin: 0 0 20px;
-  }
-  .options { display: grid; gap: 12px; }
-  button {
-    border: 0;
-    border-radius: 12px;
-    padding: 15px 16px;
-    font-size: 17px;
-    cursor: pointer;
-  }
-  .option {
-    background: #2c2c2c;
-    color: white;
-    text-align: left;
-    border: 2px solid transparent;
-  }
-  .option:hover { border-color: #e21b2d; }
-  .option:disabled { cursor: default; opacity: 1; }
-  .correct { background: #174f2a !important; border-color: #35b85a !important; }
-  .wrong { background: #5a1c24 !important; border-color: #e24b5b !important; }
-  .feedback {
-    margin-top: 16px;
-    padding: 14px;
-    border-radius: 10px;
-    background: #292929;
-    color: #ddd;
-    display: none;
-    line-height: 1.45;
-  }
-  .next {
-    width: 100%;
-    margin-top: 16px;
-    background: #e21b2d;
-    color: white;
-    font-weight: bold;
-    display: none;
-  }
-  .next:hover { background: #c91525; }
-  .score {
-    text-align: center;
-    padding: 12px 0 6px;
-    color: #ddd;
-  }
-  .result h2 { font-size: 30px; margin-top: 0; }
-  .result .big { font-size: 54px; font-weight: bold; margin: 10px 0; }
-  .restart { width: 100%; background: #e21b2d; color: white; font-weight: bold; }
-  .hidden { display: none; }
-  .share-note {
-    text-align: center;
-    color: #aaa;
-    font-size: 13px;
-    margin-top: 18px;
-  }
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#111;color:#fff;min-height:100vh}
+.container{max-width:700px;margin:0 auto;padding:24px 16px 40px}
+.header{text-align:center;margin-bottom:20px}.dart{font-size:48px}
+h1{margin:8px 0 6px;font-size:34px}.subtitle{color:#bbb;margin:0}
+.card{background:#1d1d1d;border-radius:16px;padding:22px;box-shadow:0 8px 30px rgba(0,0,0,.35)}
+.mode-grid{display:grid;gap:12px;margin-top:18px}
+.mode{background:#2c2c2c;color:#fff;border:2px solid transparent;text-align:left}
+.mode:hover{border-color:#e21b2d}.mode strong{display:block;font-size:19px;margin-bottom:5px}.mode span{color:#bbb;font-size:14px}
+.topbar{display:flex;justify-content:space-between;gap:10px;align-items:center;color:#ddd;font-size:14px;margin-bottom:14px;flex-wrap:wrap}
+.lives{letter-spacing:2px}.timer{font-weight:bold;color:#ffcf33}
+.progress{color:#bbb;font-size:14px;margin-bottom:14px}
+.question{font-size:23px;line-height:1.35;margin:0 0 20px}
+.options{display:grid;gap:12px}
+button{border:0;border-radius:12px;padding:15px 16px;font-size:17px;cursor:pointer}
+.option{background:#2c2c2c;color:#fff;text-align:left;border:2px solid transparent}
+.option:hover{border-color:#e21b2d}.option:disabled{cursor:default;opacity:1}
+.correct{background:#174f2a!important;border-color:#35b85a!important}
+.wrong{background:#5a1c24!important;border-color:#e24b5b!important}
+.feedback{margin-top:16px;padding:14px;border-radius:10px;background:#292929;color:#ddd;display:none;line-height:1.45}
+.next,.restart{width:100%;margin-top:16px;background:#e21b2d;color:#fff;font-weight:bold}
+.result{text-align:center}.result h2{font-size:30px;margin-top:0}.result .big{font-size:54px;font-weight:bold;margin:10px 0}
+.hidden{display:none}.share-note{text-align:center;color:#aaa;font-size:13px;margin-top:18px}
+.small-note{color:#aaa;font-size:13px;line-height:1.4}
 </style>
 </head>
 <body>
 <div class="container">
   <div class="header">
-    <div class="dart">🎯</div>
+    <div class="dart">ð¯</div>
     <h1>Bullseye Brainbox</h1>
     <p class="subtitle">The Medium Darts Quiz</p>
   </div>
 
   <div class="card">
-    <div id="quiz">
+    <div id="home">
+      <h2>Choose your game mode</h2>
+      <div class="mode-grid">
+        <button class="mode" onclick="startGame('classic')">
+          <strong>ð¯ Classic Quiz</strong>
+          <span>10 questions â¢ 3 lives</span>
+        </button>
+        <button class="mode" onclick="startGame('time')">
+          <strong>â¡ Time Attack</strong>
+          <span>10 questions â¢ 30 seconds per question â¢ 3 lives</span>
+        </button>
+        <button class="mode" onclick="startGame('sudden')">
+          <strong>â ï¸ Sudden Death</strong>
+          <span>One wrong answer and the game is over</span>
+        </button>
+        <button class="mode" onclick="startDaily()">
+          <strong>ð Daily Challenge</strong>
+          <span>Today's special darts question</span>
+        </button>
+      </div>
+      <p class="small-note">Every game starts with 3 lives. Wrong answers cost a life except in Sudden Death, where one wrong answer ends the game immediately.</p>
+    </div>
+
+    <div id="quiz" class="hidden">
+      <div class="topbar">
+        <span id="modeName"></span>
+        <span id="lives" class="lives">â¤ï¸â¤ï¸â¤ï¸</span>
+        <span id="timer" class="timer"></span>
+      </div>
       <div class="progress" id="progress"></div>
       <h2 class="question" id="question"></h2>
       <div class="options" id="options"></div>
       <div class="feedback" id="feedback"></div>
-      <button class="next" id="next">Next Question →</button>
+      <button class="next" id="next">Next Question â</button>
     </div>
 
     <div id="result" class="result hidden">
       <h2>Quiz Complete!</h2>
       <div class="big" id="finalScore"></div>
       <p id="resultMessage"></p>
-      <button class="restart" onclick="startQuiz()">Play Again</button>
+      <button class="restart" onclick="goHome()">Choose Another Mode</button>
     </div>
   </div>
 
-  <p class="share-note">No timer — take your time and test your darts knowledge.</p>
+  <p class="share-note">Bullseye Brainbox â¢ Darts knowledge starts at the oche.</p>
 </div>
 
 <script>
+/*
+EASY DAILY QUESTION SYSTEM
+
+Normal question:
+{
+  q: "Your question?",
+  options: ["Answer 1","Answer 2","Answer 3","Answer 4"],
+  answer: 0,
+  explanation: "Why it is correct."
+}
+
+answer 0 = first option
+answer 1 = second option
+answer 2 = third option
+answer 3 = fourth option
+
+Daily question: add date: "YYYY-MM-DD"
+Example:
+{
+  q: "Your daily question?",
+  options: ["A","B","C","D"],
+  answer: 1,
+  explanation: "The correct answer is B.",
+  date: "2026-10-06"
+}
+*/
+
 const questions = [
   {
     q: "Which player is nicknamed 'The Nuke'?",
-    options: ["Luke Littler", "Michael Smith", "Nathan Aspinall", "Rob Cross"],
+    options: ["Luke Littler","Michael Smith","Nathan Aspinall","Rob Cross"],
     answer: 0,
     explanation: "Luke Littler is known as 'The Nuke'."
   },
   {
     q: "What is the highest possible checkout in standard darts?",
-    options: ["167", "168", "169", "170"],
+    options: ["167","168","169","170"],
     answer: 3,
     explanation: "The highest checkout is 170: treble 20, treble 20, bullseye."
   },
   {
     q: "Who was the first player to complete a televised nine-dart finish?",
-    options: ["Phil Taylor", "John Lowe", "Eric Bristow", "Jocky Wilson"],
+    options: ["Phil Taylor","John Lowe","Eric Bristow","Jocky Wilson"],
     answer: 1,
     explanation: "John Lowe achieved the first televised nine-dart finish in 1984."
   },
   {
     q: "Which player is known as 'Snakebite'?",
-    options: ["Gary Anderson", "Peter Wright", "Raymond van Barneveld", "James Wade"],
+    options: ["Gary Anderson","Peter Wright","Raymond van Barneveld","James Wade"],
     answer: 1,
     explanation: "Peter Wright is nicknamed 'Snakebite'."
   },
   {
     q: "How many numbered scoring segments are there on a standard dartboard?",
-    options: ["18", "20", "22", "24"],
+    options: ["18","20","22","24"],
     answer: 1,
     explanation: "A standard dartboard has 20 numbered scoring segments."
   },
   {
     q: "Which player won the 2007 PDC World Championship?",
-    options: ["Phil Taylor", "John Part", "Raymond van Barneveld", "Dennis Priestley"],
+    options: ["Phil Taylor","John Part","Raymond van Barneveld","Dennis Priestley"],
     answer: 2,
-    explanation: "Raymond van Barneveld beat Phil Taylor 7–6 in sets in the 2007 final."
+    explanation: "Raymond van Barneveld beat Phil Taylor 7â6 in sets in the 2007 final."
   },
   {
     q: "What is the value of the outer bull?",
-    options: ["20", "25", "50", "75"],
+    options: ["20","25","50","75"],
     answer: 1,
     explanation: "The outer bull, or bull ring, is worth 25 points."
   },
   {
     q: "Which player is nicknamed 'The Machine'?",
-    options: ["James Wade", "Michael van Gerwen", "Gerwyn Price", "Dimitri Van den Bergh"],
+    options: ["James Wade","Michael van Gerwen","Gerwyn Price","Dimitri Van den Bergh"],
     answer: 0,
     explanation: "James Wade is known as 'The Machine'."
   },
   {
     q: "Who won the 2018 PDC World Championship?",
-    options: ["Michael van Gerwen", "Rob Cross", "Gary Anderson", "Phil Taylor"],
+    options: ["Michael van Gerwen","Rob Cross","Gary Anderson","Phil Taylor"],
     answer: 1,
-    explanation: "Rob Cross won the 2018 PDC World Championship, defeating Phil Taylor 7–2."
+    explanation: "Rob Cross won the 2018 PDC World Championship, defeating Phil Taylor 7â2."
   },
   {
     q: "What is the minimum possible checkout in a standard game of 501?",
-    options: ["1", "2", "3", "4"],
+    options: ["1","2","3","4"],
     answer: 1,
     explanation: "The minimum checkout is 2, by hitting double 1."
+  },
+
+  /* DAILY QUESTION â 6 OCTOBER 2026 */
+  {
+    q: "Which player is nicknamed 'The Power'?",
+    options: ["Phil Taylor","Gary Anderson","Michael van Gerwen","James Wade"],
+    answer: 0,
+    explanation: "Phil Taylor is famously nicknamed 'The Power'.",
+    date: "2026-10-06"
   }
 ];
 
+let mode = "classic";
+let gameQuestions = [];
 let current = 0;
 let score = 0;
+let lives = 3;
+let answered = false;
+let timerSeconds = 30;
+let timerInterval = null;
 
-function startQuiz() {
+function localDate() {
+  const d = new Date();
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${y}-${m}-${day}`;
+}
+
+function goHome() {
+  stopTimer();
+  document.getElementById("home").classList.remove("hidden");
+  document.getElementById("quiz").classList.add("hidden");
+  document.getElementById("result").classList.add("hidden");
+}
+
+function startGame(selectedMode) {
+  mode = selectedMode;
+  gameQuestions = shuffle([...questions.filter(q => !q.date)]).slice(0, 10);
   current = 0;
   score = 0;
-  document.getElementById("quiz").classList.remove("hidden");
+  lives = 3;
+  document.getElementById("home").classList.add("hidden");
   document.getElementById("result").classList.add("hidden");
+  document.getElementById("quiz").classList.remove("hidden");
+  document.getElementById("modeName").textContent =
+    mode === "classic" ? "ð¯ Classic" :
+    mode === "time" ? "â¡ Time Attack" : "â ï¸ Sudden Death";
+  showQuestion();
+}
+
+function startDaily() {
+  const daily = questions.find(q => q.date === localDate());
+
+  if (!daily) {
+    alert("Today's Daily Challenge hasn't been added yet. Add a question with today's date in the questions section.");
+    return;
+  }
+
+  mode = "daily";
+  gameQuestions = [daily];
+  current = 0;
+  score = 0;
+  lives = 3;
+  document.getElementById("home").classList.add("hidden");
+  document.getElementById("result").classList.add("hidden");
+  document.getElementById("quiz").classList.remove("hidden");
+  document.getElementById("modeName").textContent = "ð Daily Challenge";
   showQuestion();
 }
 
 function showQuestion() {
-  const item = questions[current];
+  stopTimer();
+  answered = false;
+
+  const item = gameQuestions[current];
   document.getElementById("progress").textContent =
-    `Question ${current + 1} of ${questions.length}`;
+    `Question ${current + 1} of ${gameQuestions.length}`;
   document.getElementById("question").textContent = item.q;
+  document.getElementById("lives").textContent =
+    "â¤ï¸".repeat(lives) + "ð¤".repeat(3 - lives);
 
   const options = document.getElementById("options");
   options.innerHTML = "";
@@ -216,10 +270,62 @@ function showQuestion() {
 
   document.getElementById("feedback").style.display = "none";
   document.getElementById("next").style.display = "none";
+
+  if (mode === "time") {
+    timerSeconds = 30;
+    updateTimer();
+    timerInterval = setInterval(() => {
+      timerSeconds--;
+      updateTimer();
+      if (timerSeconds <= 0) timeUp();
+    }, 1000);
+  } else {
+    document.getElementById("timer").textContent = "";
+  }
+}
+
+function updateTimer() {
+  document.getElementById("timer").textContent = `â±ï¸ ${timerSeconds}s`;
+}
+
+function stopTimer() {
+  if (timerInterval) {
+    clearInterval(timerInterval);
+    timerInterval = null;
+  }
+}
+
+function timeUp() {
+  if (answered) return;
+  answered = true;
+  stopTimer();
+
+  const item = gameQuestions[current];
+  const buttons = document.querySelectorAll(".option");
+
+  buttons.forEach((btn, i) => {
+    btn.disabled = true;
+    if (i === item.answer) btn.classList.add("correct");
+  });
+
+  lives--;
+  document.getElementById("lives").textContent =
+    "â¤ï¸".repeat(lives) + "ð¤".repeat(3 - lives);
+
+  const feedback = document.getElementById("feedback");
+  feedback.innerHTML = "â° Time's up! " + item.explanation;
+  feedback.style.display = "block";
+
+  if (lives <= 0) setTimeout(showResult, 700);
+  else prepareNextButton();
 }
 
 function chooseAnswer(selected, clickedButton) {
-  const item = questions[current];
+  if (answered) return;
+  answered = true;
+  stopTimer();
+
+  const item = gameQuestions[current];
   const buttons = document.querySelectorAll(".option");
 
   buttons.forEach((btn, i) => {
@@ -228,48 +334,84 @@ function chooseAnswer(selected, clickedButton) {
   });
 
   const feedback = document.getElementById("feedback");
+
   if (selected === item.answer) {
     score++;
     clickedButton.classList.add("correct");
-    feedback.innerHTML = "✅ Correct! " + item.explanation;
+    feedback.innerHTML = "â Correct! " + item.explanation;
   } else {
     clickedButton.classList.add("wrong");
-    feedback.innerHTML = "❌ Not quite. " + item.explanation;
+
+    if (mode === "sudden") {
+      lives = 0;
+      feedback.innerHTML = "â ï¸ Game over! " + item.explanation;
+    } else {
+      lives--;
+      feedback.innerHTML = "â Not quite. " + item.explanation;
+    }
   }
 
+  document.getElementById("lives").textContent =
+    "â¤ï¸".repeat(lives) + "ð¤".repeat(3 - lives);
   feedback.style.display = "block";
+
+  if (lives <= 0) setTimeout(showResult, 700);
+  else prepareNextButton();
+}
+
+function prepareNextButton() {
   const next = document.getElementById("next");
-  next.textContent = current === questions.length - 1 ? "See My Score →" : "Next Question →";
+  next.textContent =
+    current === gameQuestions.length - 1 ? "See My Score â" : "Next Question â";
   next.style.display = "block";
 }
 
 document.getElementById("next").onclick = () => {
   current++;
-  if (current < questions.length) {
-    showQuestion();
-  } else {
-    showResult();
-  }
+  if (current < gameQuestions.length) showQuestion();
+  else showResult();
 };
 
 function showResult() {
+  stopTimer();
   document.getElementById("quiz").classList.add("hidden");
   document.getElementById("result").classList.remove("hidden");
 
-  const percentage = Math.round((score / questions.length) * 100);
+  const percentage = gameQuestions.length
+    ? Math.round((score / gameQuestions.length) * 100)
+    : 0;
+
   document.getElementById("finalScore").textContent =
-    `${score} / ${questions.length} (${percentage}%)`;
+    `${score} / ${gameQuestions.length} (${percentage}%)`;
 
   let message;
-  if (score === 10) message = "🎯 Perfect score! You're a Bullseye Brainbox!";
-  else if (score >= 8) message = "🔥 Excellent darts knowledge!";
-  else if (score >= 6) message = "👏 Good effort — you know your darts!";
-  else if (score >= 4) message = "🎯 Not bad! Time for a few more trips to the oche.";
-  else message = "🍻 Back to the practice board!";
+
+  if (mode === "sudden" && lives <= 0) {
+    message = `â ï¸ Sudden Death ended your run after ${score} correct answer${score === 1 ? "" : "s"}.`;
+  } else if (lives <= 0) {
+    message = "â¤ï¸ You used all 3 lives. Have another go!";
+  } else if (percentage === 100) {
+    message = "ð¯ Perfect score! You're a Bullseye Brainbox!";
+  } else if (percentage >= 80) {
+    message = "ð¥ Excellent darts knowledge!";
+  } else if (percentage >= 60) {
+    message = "ð Good effort â you know your darts!";
+  } else if (percentage >= 40) {
+    message = "ð¯ Not bad! Time for a few more trips to the oche.";
+  } else {
+    message = "ð» Back to the practice board!";
+  }
+
   document.getElementById("resultMessage").textContent = message;
 }
 
-startQuiz();
+function shuffle(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+}
 </script>
 </body>
 </html>

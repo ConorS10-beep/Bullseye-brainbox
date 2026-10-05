@@ -117,6 +117,10 @@ button{border:0;border-radius:12px;padding:15px 16px;font-size:17px;cursor:point
       <h2>Quiz Complete!</h2>
       <div class="big" id="finalScore"></div>
       <p id="resultMessage"></p>
+      <div id="missedAnswers" class="hidden" style="margin:18px 0;text-align:left;">
+        <h3>Answers You Missed</h3>
+        <div id="missedAnswersList"></div>
+      </div>
       <button class="restart" onclick="goHome()">Choose Another Mode</button>
     </div>
   </div>
@@ -253,6 +257,7 @@ function goHome() {
 function startGame(selectedMode) {
   mode = selectedMode;
   lives = 3;
+  missedAnswers = [];
 
   if (mode === "classic") {
     startClassic();
@@ -304,6 +309,7 @@ const biggestPremierLeagueVenues = [
 
 let foundWinners = [];
 let foundVenues = [];
+let missedAnswers = [];
 
 function normaliseName(name) {
   return name
@@ -338,6 +344,7 @@ function updateSuddenLives() {
 function startClassic() {
   stopTimer();
   foundWinners = [];
+  missedAnswers = [];
   lives = 3;
 
   document.getElementById("home").classList.add("hidden");
@@ -407,11 +414,18 @@ function showClassicResult(completed) {
   document.getElementById("resultMessage").textContent = completed
     ? "PERFECT! You named all 10 different World Matchplay winners."
     : `You found ${found} of the 10 winners before losing all 3 lives.`;
+
+  if (!completed) {
+    showMissedAnswers(worldMatchplayWinners.filter(name => !foundWinners.includes(name)));
+  } else {
+    hideMissedAnswers();
+  }
 }
 
 function startSudden() {
   stopTimer();
   foundVenues = [];
+  missedAnswers = [];
   lives = 3;
 
   document.getElementById("home").classList.add("hidden");
@@ -481,6 +495,12 @@ function showSuddenResult(completed) {
   document.getElementById("resultMessage").textContent = completed
     ? "PERFECT! You named all 10 biggest Premier League Darts venues."
     : `You found ${found} of the 10 venues before losing all 3 lives.`;
+
+  if (!completed) {
+    showMissedAnswers(biggestPremierLeagueVenues.filter(name => !foundVenues.includes(name)));
+  } else {
+    hideMissedAnswers();
+  }
 }
 
 document.getElementById("submitWinner").onclick = submitWinner;
@@ -502,6 +522,7 @@ function startDaily() {
   }
 
   mode = "daily";
+  missedAnswers = [];
   gameQuestions = [daily];
   current = 0;
   score = 0;
@@ -578,6 +599,7 @@ function timeUp() {
   });
 
   lives--;
+  if (!missedAnswers.includes(item.options[item.answer])) missedAnswers.push(item.options[item.answer]);
   document.getElementById("lives").textContent =
     "LIVES".repeat(lives) + "LOST".repeat(3 - lives);
 
@@ -610,6 +632,7 @@ function chooseAnswer(selected, clickedButton) {
     feedback.innerHTML = "CORRECT! Correct! " + item.explanation;
   } else {
     clickedButton.classList.add("wrong");
+    if (!missedAnswers.includes(item.options[item.answer])) missedAnswers.push(item.options[item.answer]);
 
     if (mode === "sudden") {
       lives = 0;
@@ -640,6 +663,24 @@ document.getElementById("next").onclick = () => {
   if (current < gameQuestions.length) showQuestion();
   else showResult();
 };
+
+function showMissedAnswers(answers) {
+  const box = document.getElementById("missedAnswers");
+  const list = document.getElementById("missedAnswersList");
+  if (!answers || answers.length === 0) {
+    hideMissedAnswers();
+    return;
+  }
+  list.innerHTML = answers.map(answer => `<div class="found-player">${answer}</div>`).join("");
+  box.classList.remove("hidden");
+}
+
+function hideMissedAnswers() {
+  const box = document.getElementById("missedAnswers");
+  const list = document.getElementById("missedAnswersList");
+  list.innerHTML = "";
+  box.classList.add("hidden");
+}
 
 function showResult() {
   stopTimer();
@@ -674,6 +715,16 @@ function showResult() {
   }
 
   document.getElementById("resultMessage").textContent = message;
+
+  if (lives <= 0) {
+    if (mode === "time" || mode === "daily") {
+      showMissedAnswers(missedAnswers);
+    } else {
+      hideMissedAnswers();
+    }
+  } else {
+    hideMissedAnswers();
+  }
 }
 
 function shuffle(array) {

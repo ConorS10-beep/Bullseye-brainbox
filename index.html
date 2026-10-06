@@ -1144,7 +1144,10 @@ completed
 :
 `You found ${found} of the 10 players before losing all 3 lives.`;
 
-hideMissedAnswers();
+const missed = worldMatchplayWinners.filter(
+  player => !foundWinners.includes(player)
+);
+showMissedAnswers(missed);
 
 }
 

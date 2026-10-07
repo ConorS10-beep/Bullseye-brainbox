@@ -1187,12 +1187,12 @@ showQuestion();
 
 function startDaily(){
 
-const daily=questions.find(
+const daily=questions.filter(
 q=>q.date===localDate()
 );
 
 
-if(!daily){
+if(!daily.length){
 
 alert(
 "Today's Daily Challenge hasn't been added yet."
@@ -1207,7 +1207,7 @@ mode="daily";
 
 missedAnswers=[];
 
-gameQuestions=[daily];
+gameQuestions=daily;
 
 current=0;
 
